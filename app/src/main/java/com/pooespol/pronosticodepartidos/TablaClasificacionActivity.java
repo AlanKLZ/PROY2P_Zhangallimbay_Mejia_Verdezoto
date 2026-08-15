@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +15,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+
+/**
+ * Activity para la tabla de posiciones
+ */
 public class TablaClasificacionActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageButton btnMenu;
-    private TableLayout tableLayout;
+    private TableLayout tableClasificacion;
     private Button btnVolver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         });
         drawerLayout = findViewById(R.id.drawerLayout);
         btnMenu = findViewById(R.id.btnMenu);
-        tableLayout = findViewById(R.id.tableLayout);
+        tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
         //Abre el menu a la izquierda

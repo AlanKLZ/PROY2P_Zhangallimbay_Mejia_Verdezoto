@@ -23,10 +23,25 @@ public class Participante extends Usuario implements Comparable<Participante>{
     public int getPuntajeAcumulado() {
         return puntajeAcumulado;
     }
+    //setter
+    public void setPuntajeAcumulado(int puntajeAcumulado) {
+        this.puntajeAcumulado = puntajeAcumulado;
+    }
 
-    //Pendiente implementar
+    /**
+     *
+     * @param otroParticipante the object to be compared.
+     * @return Retorna un numero, para luego ordenarlos.
+     */
     @Override
-    public int compareTo(Participante participante) {
-        return 0;
+    public int compareTo(Participante otroParticipante) {
+        int comparacion = Integer.compare(
+                otroParticipante.getPuntajeAcumulado(),
+                this.puntajeAcumulado
+        );
+        if (comparacion != 0){
+            return comparacion;
+        }
+        return this.getNombreCompleto().compareToIgnoreCase(otroParticipante.getNombreCompleto());
     }
 }
