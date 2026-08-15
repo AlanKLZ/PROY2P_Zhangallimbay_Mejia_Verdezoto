@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("nombreCompleto", usuarioAutenticado.getNombreCompleto());
                 startActivity(intent);
             }else if(usuarioAutenticado.getTipoUsuario() == TipoUsuario.ADMINISTRADOR){
-                Intent intent = new Intent(MainActivity.this, MenuAdministradorActivity.class);
+                Intent intent = new Intent(MainActivity.this, MenuPrincipalAdministrador.class);
                 intent.putExtra("idUsuario", usuarioAutenticado.getIdUsuario());
                 intent.putExtra("nombreCompleto", usuarioAutenticado.getNombreCompleto());
                 startActivity(intent);
