@@ -25,6 +25,10 @@
             android:name=".TablaClasificacionActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".MenuPrincipalOrganizador"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
