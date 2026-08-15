@@ -22,7 +22,7 @@ public abstract class Usuario {
         this.idUsuario = idUsuario;
         this.nombreDeUsuario = nombreDeUsuario;
         this.contraseña = contraseña;
-        this.nombreDeUsuario = nombreCompleto;
+        this.nombreCompleto = nombreCompleto;
     }
     //Getters
     public String getIdUsuario() {
@@ -44,6 +44,7 @@ public abstract class Usuario {
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
+
     @Override
     public String toString(){
         return "Usuario: "+nombreDeUsuario;
