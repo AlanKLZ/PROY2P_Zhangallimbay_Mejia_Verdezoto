@@ -11,4 +11,10 @@
     <string name="clasificacion">Clasificacion</string>
     <string name="pronostico">Pronostico</string>
     <string name="mi_perfil">Mi perfil</string>
+    <string name="actualizar_puntajes">Actualizar puntajes</string>
+    <string name="administrar_partidos">Administrar partidos</string>
+    <string name="salir">Salir</string>
+    <string name="fondo_encabezado">Fondo encabezado</string>
+    <string name="fondo_inferior">Fondo inferior</string>
+    <string name="bienvenido">Bienvenido,</string>
 </resources>
