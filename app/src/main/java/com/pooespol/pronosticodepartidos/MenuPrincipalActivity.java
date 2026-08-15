@@ -14,7 +14,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     private TextView txtNombreUsuario;
     private TextView txtTipoUsuario;
 
-    // CONTENEDORES DE MENÚ
+    // CONTENEDORES
     private LinearLayout layoutParticipante;
     private LinearLayout layoutAdministrador;
 
@@ -30,20 +30,18 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     // SALIR
     private LinearLayout opcionSalir;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
 
         inicializarComponentes();
-        cargarUsuario();
+        recibirDatosUsuario();
         configurarBotones();
     }
 
-
     // =====================================================
-    // RELACIONAR LOS IDS DEL XML CON JAVA
+    // RELACIONAR IDS DEL XML CON JAVA
     // =====================================================
 
     private void inicializarComponentes() {
@@ -54,54 +52,49 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         layoutParticipante = findViewById(R.id.layoutParticipante);
         layoutAdministrador = findViewById(R.id.layoutAdministrador);
 
-        opcionTablaPosiciones =
-                findViewById(R.id.opcionTablaPosiciones);
+        opcionTablaPosiciones = findViewById(R.id.opcionTablaPosiciones);
+        opcionPronosticos = findViewById(R.id.opcionPronosticos);
+        opcionMisPronosticos = findViewById(R.id.opcionMisPronosticos);
 
-        opcionPronosticos =
-                findViewById(R.id.opcionPronosticos);
+        opcionAdministrarPartidos = findViewById(R.id.opcionAdministrarPartidos);
+        opcionActualizarPuntajes = findViewById(R.id.opcionActualizarPuntajes);
 
-        opcionMisPronosticos =
-                findViewById(R.id.opcionMisPronosticos);
-
-        opcionAdministrarPartidos =
-                findViewById(R.id.opcionAdministrarPartidos);
-
-        opcionActualizarPuntajes =
-                findViewById(R.id.opcionActualizarPuntajes);
-
-        opcionSalir =
-                findViewById(R.id.opcionSalir);
+        opcionSalir = findViewById(R.id.opcionSalir);
     }
 
-
     // =====================================================
-    // CARGAR DATOS DEL USUARIO
+    // RECIBIR DATOS DEL USUARIO
     // =====================================================
 
-    private void cargarUsuario() {
+    private void recibirDatosUsuario() {
 
-        /*
-         * Por ahora dejamos estos datos de prueba.
-         * Después los podemos recibir desde LoginActivity.
-         */
+        String nombreUsuario = getIntent().getStringExtra("nombreUsuario");
+        String tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
-        String nombre = "Juan Pérez";
-        String tipo = "Participante";
+        // Si todavía no llegan datos desde el login,
+        // usamos valores de prueba.
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            nombreUsuario = "Juan Pérez";
+        }
 
-        txtNombreUsuario.setText(nombre);
-        txtTipoUsuario.setText(tipo);
+        if (tipoUsuario == null || tipoUsuario.trim().isEmpty()) {
+            tipoUsuario = "Participante";
+        }
 
-        mostrarMenu(tipo);
+        txtNombreUsuario.setText(nombreUsuario);
+        txtTipoUsuario.setText(tipoUsuario);
+
+        mostrarMenuSegunUsuario(tipoUsuario);
     }
 
-
     // =====================================================
-    // MOSTRAR MENÚ SEGÚN EL TIPO DE USUARIO
+    // MOSTRAR MENÚ SEGÚN TIPO DE USUARIO
     // =====================================================
 
-    private void mostrarMenu(String tipo) {
+    private void mostrarMenuSegunUsuario(String tipoUsuario) {
 
-        if (tipo.equalsIgnoreCase("Administrador")) {
+        if (tipoUsuario.equalsIgnoreCase("Administrador")
+                || tipoUsuario.equalsIgnoreCase("Organizador")) {
 
             layoutParticipante.setVisibility(View.GONE);
             layoutAdministrador.setVisibility(View.VISIBLE);
@@ -113,90 +106,56 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         }
     }
 
-
     // =====================================================
     // CONFIGURAR BOTONES
     // =====================================================
 
     private void configurarBotones() {
 
-
-        // TABLA DE POSICIONES
         opcionTablaPosiciones.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
                     "Tabla de posiciones",
                     Toast.LENGTH_SHORT
             ).show();
-
-            /*
-             * Cuando ya exista la Activity de tabla:
-             *
-             * Intent intent = new Intent(
-             *         MenuPrincipalActivity.this,
-             *         TablaPosicionesActivity.class
-             * );
-             *
-             * startActivity(intent);
-             */
         });
 
-
-        // PRONÓSTICOS
         opcionPronosticos.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
                     "Pronósticos",
                     Toast.LENGTH_SHORT
             ).show();
-
         });
 
-
-        // MIS PRONÓSTICOS
         opcionMisPronosticos.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
                     "Mis pronósticos",
                     Toast.LENGTH_SHORT
             ).show();
-
         });
 
-
-        // ADMINISTRAR PARTIDOS
         opcionAdministrarPartidos.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
                     "Administrar partidos",
                     Toast.LENGTH_SHORT
             ).show();
-
         });
 
-
-        // ACTUALIZAR PUNTAJES
         opcionActualizarPuntajes.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
                     "Actualizar puntajes",
                     Toast.LENGTH_SHORT
             ).show();
-
         });
 
-
-        // SALIR
         opcionSalir.setOnClickListener(v -> {
-
             Toast.makeText(
                     MenuPrincipalActivity.this,
-                    "Saliendo...",
+                    "Sesión cerrada",
                     Toast.LENGTH_SHORT
             ).show();
 
