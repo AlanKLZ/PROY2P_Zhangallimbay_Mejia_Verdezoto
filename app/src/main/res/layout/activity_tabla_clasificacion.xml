@@ -38,7 +38,8 @@
                 android:layout_height="159dp"
                 android:alpha="0.7"
                 android:contentDescription="@string/imagen_de_encabezado"
-                app:srcCompat="@drawable/tabla_background" />
+                app:srcCompat="@drawable/tabla_background"
+                tools:ignore="VisualLintBounds" />
 
             <ImageButton
                 android:id="@+id/btnMenu"
@@ -59,7 +60,8 @@
             android:layout_width="293dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom|start"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -79,11 +81,13 @@
                 android:text="@string/tabla_de_posiciones"
                 android:textColor="#04125B"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RtlHardcoded" />
 
         </LinearLayout>
 
         <TableLayout
+            android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="478dp"
             android:paddingTop="10dp"
@@ -133,13 +137,14 @@
             android:text="@string/volver"
             tools:ignore="TouchTargetSizeCheck" />
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationView"
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/nav_header"
-            app:menu="@menu/drawer_menu" />
     </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
