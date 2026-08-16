@@ -16,7 +16,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MenuPrincipalActivity"
+            android:name=".MenuPrincipalParticipante"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MenuPrincipalOrganizador"
+            android:name=".MenuPrincipalAdministrador"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

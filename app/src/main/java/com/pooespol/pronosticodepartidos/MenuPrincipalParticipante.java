@@ -7,8 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-public class MenuPrincipalActivity extends AppCompatActivity {
+public class MenuPrincipalParticipante extends AppCompatActivity {
 
     // DATOS DEL USUARIO
     private TextView txtNombreUsuario;
@@ -33,7 +36,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_principal);
+        setContentView(R.layout.activity_menu_principal_participante);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         inicializarComponentes();
         recibirDatosUsuario();
@@ -45,27 +53,28 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     // =====================================================
 
     private void inicializarComponentes() {
-
+        //Borrar estos dos, ya que no se instancian, se crean desde otro metodo
         txtNombreUsuario = findViewById(R.id.txtNombreUsuario);
         txtTipoUsuario = findViewById(R.id.txtTipoUsuario);
 
+        //borrar esto, solo es 1 layout
         layoutParticipante = findViewById(R.id.layoutParticipante);
         layoutAdministrador = findViewById(R.id.layoutAdministrador);
-
+        //Se queda
         opcionTablaPosiciones = findViewById(R.id.opcionTablaPosiciones);
         opcionPronosticos = findViewById(R.id.opcionPronosticos);
         opcionMisPronosticos = findViewById(R.id.opcionMisPronosticos);
-
+        //Se borra
         opcionAdministrarPartidos = findViewById(R.id.opcionAdministrarPartidos);
         opcionActualizarPuntajes = findViewById(R.id.opcionActualizarPuntajes);
-
+        //Se mantiene
         opcionSalir = findViewById(R.id.opcionSalir);
     }
 
     // =====================================================
     // RECIBIR DATOS DEL USUARIO
     // =====================================================
-
+    //Bien, pero es mejor que cree una view, mas no instanciarlo primero.
     private void recibirDatosUsuario() {
 
         String nombreUsuario = getIntent().getStringExtra("nombreUsuario");
@@ -83,14 +92,14 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         txtNombreUsuario.setText(nombreUsuario);
         txtTipoUsuario.setText(tipoUsuario);
-
+        //No sirve
         mostrarMenuSegunUsuario(tipoUsuario);
     }
 
     // =====================================================
     // MOSTRAR MENÚ SEGÚN TIPO DE USUARIO
     // =====================================================
-
+    //Reduntante, para eso ya tenemos diferentes activities
     private void mostrarMenuSegunUsuario(String tipoUsuario) {
 
         if (tipoUsuario.equalsIgnoreCase("Administrador")
@@ -109,12 +118,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     // =====================================================
     // CONFIGURAR BOTONES
     // =====================================================
-
+    //Util separarlos, but ciertos botones no van
     private void configurarBotones() {
 
         opcionTablaPosiciones.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Tabla de posiciones",
                     Toast.LENGTH_SHORT
             ).show();
@@ -122,7 +131,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         opcionPronosticos.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Pronósticos",
                     Toast.LENGTH_SHORT
             ).show();
@@ -130,7 +139,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         opcionMisPronosticos.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Mis pronósticos",
                     Toast.LENGTH_SHORT
             ).show();
@@ -138,7 +147,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         opcionAdministrarPartidos.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Administrar partidos",
                     Toast.LENGTH_SHORT
             ).show();
@@ -146,7 +155,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         opcionActualizarPuntajes.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Actualizar puntajes",
                     Toast.LENGTH_SHORT
             ).show();
@@ -154,7 +163,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         opcionSalir.setOnClickListener(v -> {
             Toast.makeText(
-                    MenuPrincipalActivity.this,
+                    MenuPrincipalParticipante.this,
                     "Sesión cerrada",
                     Toast.LENGTH_SHORT
             ).show();

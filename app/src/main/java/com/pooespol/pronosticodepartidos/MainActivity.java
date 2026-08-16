@@ -42,18 +42,17 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         campoUsuario = findViewById(R.id.editTextUsuario);
         campoContraseña = findViewById(R.id.EditTextContraseña);
         btnIniciarSesion = findViewById(R.id.btnInicioSesion);
         btnIniciarSesion.setOnClickListener(v-> iniciarSesion());
 
         usuarios = ManejoArchivosUsuario.leerUsuarios(this);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
     /**
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         try{
             Usuario usuarioAutenticado = autenticar(nombreUsuario, contraseña);
             if (usuarioAutenticado.getTipoUsuario() == TipoUsuario.PARTICIPANTE){
-                Intent intent = new Intent(MainActivity.this, MenuParticipanteActivity.class);
+                Intent intent = new Intent(MainActivity.this, MenuPrincipalParticipante.class);
                 intent.putExtra("idUsuario", usuarioAutenticado.getIdUsuario());
                 intent.putExtra("nombreCompleto", usuarioAutenticado.getNombreCompleto());
                 startActivity(intent);
