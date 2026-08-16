@@ -7,4 +7,114 @@
     android:layout_height="match_parent"
     tools:context=".MenuPrincipalParticipante">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="196dp">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="194dp"
+                app:srcCompat="@drawable/decoracion_superior"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:ignore="ContentDescription,ImageContrastCheck"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:layout_width="272dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bienvenido" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="334dp"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <Button
+                android:id="@+id/btnTablaClasificacion"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:backgroundTint="#94A3F8"
+                android:insetBottom="10dp"
+                android:text="@string/tabla_de_clasificacion"
+                android:textColor="#263238" />
+
+            <Button
+                android:id="@+id/btnPronosticos"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:backgroundTint="#94A3F8"
+                android:insetBottom="10dp"
+                android:text="@string/pronostico"
+                android:textColor="#263238" />
+
+            <Button
+                android:id="@+id/btnMisPronostico"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:backgroundTint="#94A3F8"
+                android:insetBottom="10dp"
+                android:text="@string/mis_pronosticos"
+                android:textColor="#263238" />
+
+            <Button
+                android:id="@+id/btnSalirParticipante"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:backgroundTint="#94A3F8"
+                android:insetBottom="10dp"
+                android:text="@string/salir"
+                android:textColor="#263238" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="212dp"
+            android:contentDescription="@string/fondo_inferior">
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="wrap_content"
+                android:layout_height="226dp"
+                app:srcCompat="@drawable/estadio_inferior"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
