@@ -52,7 +52,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
                 participantes.add((Participante) usuario);
             }
         }
-
+        cargarTabla(participantes);
         //Abre el menu a la izquierda
         btnMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);

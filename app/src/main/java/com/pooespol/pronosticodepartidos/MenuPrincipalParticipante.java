@@ -39,6 +39,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         tVnombreParticipante.setText(nombreCompleto);
 
         usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
