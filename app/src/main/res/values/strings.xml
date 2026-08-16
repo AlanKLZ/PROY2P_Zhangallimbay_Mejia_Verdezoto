@@ -20,4 +20,14 @@
     <string name="mis_pronosticos">Mis pronosticos</string>
     <string name="tabla_de_clasificacion">Tabla de posiciones</string>
     <string name="administrador">Administrador</string>
+
+    <string-array name="fases_torneo">
+        <item>Fase de grupos</item>
+        <item>Dieciseisavos</item>
+        <item>Octavos</item>
+        <item>Cuartos de final</item>
+        <item>Semifinales</item>
+        <item>Tercer lugar</item>
+        <item>Final</item>
+    </string-array>
 </resources>
