@@ -12,12 +12,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.pooespol.pronosticodepartidos.modelo.Participante;
+import com.pooespol.pronosticodepartidos.modelo.Usuario;
+
+import java.util.ArrayList;
+
 public class MenuPrincipalParticipante extends AppCompatActivity {
     private TextView tVnombreParticipante;
     private Button btnTablaPosiciones;
     private Button btnPronosticos;
     private Button btnMisPronosticos;
     private Button btnSalirParticipante;
+    private ArrayList<Usuario> usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreParticipante.setText(nombreCompleto);
 
+        usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -41,6 +48,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
 
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
+        tablaPosicion.putExtra("usuarios",usuarios);
         startActivity(tablaPosicion);
     }
     public void verPronosticos(View view){

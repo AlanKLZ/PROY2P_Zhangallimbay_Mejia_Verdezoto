@@ -15,6 +15,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.pooespol.pronosticodepartidos.modelo.Participante;
+import com.pooespol.pronosticodepartidos.modelo.Usuario;
+
+import java.util.ArrayList;
+
 
 /**
  * Activity para la tabla de posiciones
@@ -24,6 +29,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     private ImageButton btnMenu;
     private TableLayout tableClasificacion;
     private Button btnVolver;
+    private ArrayList<Participante> participantes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,14 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
+        ArrayList<Usuario> usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        for (Usuario usuario : usuarios) {
+
+            if (usuario instanceof Participante) {
+                participantes.add((Participante) usuario);
+            }
+        }
+
         //Abre el menu a la izquierda
         btnMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
@@ -47,5 +61,34 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         btnVolver.setOnClickListener(v->{
             finish();
         });
+    }
+    private void cargarTabla(ArrayList<Participante> participantes) {
+
+        participantes.sort(null);
+
+        int posicion = 1;
+
+        for (Participante participante : participantes) {
+
+            TableRow fila = new TableRow(this);
+
+            TextView tvPosicion = new TextView(this);
+            TextView tvParticipante = new TextView(this);
+            TextView tvPuntaje = new TextView(this);
+
+            tvPosicion.setText(String.valueOf(posicion));
+            tvParticipante.setText(participante.getNombreCompleto());
+            tvPuntaje.setText(
+                    String.valueOf(participante.getPuntajeAcumulado())
+            );
+
+            fila.addView(tvPosicion);
+            fila.addView(tvParticipante);
+            fila.addView(tvPuntaje);
+
+            tableClasificacion.addView(fila);
+
+            posicion++;
+        }
     }
 }
