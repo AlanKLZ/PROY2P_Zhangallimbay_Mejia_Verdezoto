@@ -36,8 +36,8 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         btnSalirParticipante = findViewById(R.id.btnSalirParticipante);
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreParticipante.setText(nombreCompleto);
-
-        //usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        btnPronosticos.setOnClickListener(v-> verPronosticos());
+        usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -52,8 +52,9 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         // tablaPosicion.putExtra("usuarios",usuarios);
         startActivity(tablaPosicion);
     }
-    public void verPronosticos(View view){
-
+    public void verPronosticos(){
+        Intent intent = new Intent(MenuPrincipalParticipante.this,PronosticosActivity.class);
+        startActivity(intent);
     }
     public void verMisPronosticos(View view){
 
