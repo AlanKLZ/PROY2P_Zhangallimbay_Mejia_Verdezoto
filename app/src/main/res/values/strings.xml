@@ -17,4 +17,6 @@
     <string name="fondo_encabezado">Fondo encabezado</string>
     <string name="fondo_inferior">Fondo inferior</string>
     <string name="bienvenido">Bienvenido,</string>
+    <string name="mis_pronosticos">Mis pronosticos</string>
+    <string name="tabla_de_clasificacion">Tabla de clasificacion</string>
 </resources>
