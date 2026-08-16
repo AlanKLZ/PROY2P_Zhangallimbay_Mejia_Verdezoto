@@ -29,7 +29,7 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
         });
         btnAdminstrarPartidos = findViewById(R.id.btnAdministrarPartidos);
         btnActualizarPartidos = findViewById(R.id.btnActualizarPuntajes);
-        btnSalir = findViewById(R.id.btnSalir);
+        btnSalir = findViewById(R.id.btnSalirAdministrador);
         tVnombreAdministrador = findViewById(R.id.tVnombreAdministrador);
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreAdministrador.setText(nombreCompleto);
