@@ -24,10 +24,10 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         setContentView(R.layout.activity_menu_principal_participante);
         tVnombreParticipante = findViewById(R.id.tvnombreParticipante);
         btnTablaPosiciones = findViewById(R.id.btnTablaPosiciones);
-        btnPronosticos = findViewById(R.id.btnPronósticos);
+        btnPronosticos = findViewById(R.id.btnPronosticos);
         btnMisPronosticos = findViewById(R.id.btnMisPronosticos);
         btnSalirParticipante = findViewById(R.id.btnSalirParticipante);
-        String nombreParticipante = getIntent().getStringExtra("nombreCompleto");
+        String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreParticipante.setText(nombreCompleto);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
