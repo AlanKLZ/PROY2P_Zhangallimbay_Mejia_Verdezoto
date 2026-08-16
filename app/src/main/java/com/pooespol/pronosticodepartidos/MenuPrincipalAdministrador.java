@@ -37,6 +37,6 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
 
     }
     public void salir(View view){
-
+        finish();
     }
 }
