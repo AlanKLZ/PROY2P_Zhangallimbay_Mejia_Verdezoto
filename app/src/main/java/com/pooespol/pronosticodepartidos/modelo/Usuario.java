@@ -1,10 +1,12 @@
 package com.pooespol.pronosticodepartidos.modelo;
 
+import java.io.Serializable;
+
 /**
  * Clase padre del que se heredarán los usuarios
  * @author Alan
  */
-public abstract class Usuario {
+public abstract class Usuario implements Serializable {
     protected String idUsuario;
     protected String nombreDeUsuario;
     protected String contraseña;
