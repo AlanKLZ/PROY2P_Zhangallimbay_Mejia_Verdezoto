@@ -1,6 +1,8 @@
 package com.pooespol.pronosticodepartidos;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,5 +37,19 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void verTablaPosicion(View view){
+        Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
+        startActivity(tablaPosicion);
+    }
+    public void verPronosticos(View view){
+
+    }
+    public void verMisPronosticos(View view){
+
+    }
+    public void salir(View view){
+        finish();
     }
 }
