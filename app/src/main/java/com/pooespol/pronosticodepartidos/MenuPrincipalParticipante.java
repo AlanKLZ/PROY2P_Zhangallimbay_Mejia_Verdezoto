@@ -18,7 +18,6 @@ import com.pooespol.pronosticodepartidos.modelo.Usuario;
 import java.util.ArrayList;
 
 public class MenuPrincipalParticipante extends AppCompatActivity {
-    private TextView tVnombreParticipante;
     private Button btnTablaPosiciones;
     private Button btnPronosticos;
     private Button btnMisPronosticos;
@@ -30,7 +29,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu_principal_participante);
-        tVnombreParticipante = findViewById(R.id.tvnombreParticipante);
+        TextView tVnombreParticipante = findViewById(R.id.tvnombreParticipante);
         btnTablaPosiciones = findViewById(R.id.btnTablaPosiciones);
         btnPronosticos = findViewById(R.id.btnPronosticos);
         btnMisPronosticos = findViewById(R.id.btnMisPronosticos);
@@ -38,7 +37,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreParticipante.setText(nombreCompleto);
 
-        usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        //usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,7 +48,8 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
 
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
-        tablaPosicion.putExtra("usuarios",usuarios);
+        //Pendiente el manejo de pasar el arraylist
+        // tablaPosicion.putExtra("usuarios",usuarios);
         startActivity(tablaPosicion);
     }
     public void verPronosticos(View view){
