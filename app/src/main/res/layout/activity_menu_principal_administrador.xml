@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     tools:context=".MenuPrincipalAdministrador">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="729dp"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,31 +26,72 @@
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="wrap_content"
-                android:layout_height="175dp"
-                android:contentDescription="@string/fondo_encabezado"
-                app:srcCompat="@drawable/encabezado_background"
-                tools:ignore="ImageContrastCheck" />
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/encabezado_background" />
 
             <LinearLayout
-                android:id="@+id/lyBienvenida"
-                android:layout_width="238dp"
-                android:layout_height="140dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="30dp"
+                android:paddingTop="35dp"
+                android:paddingEnd="10dp">
 
-                <TextView
-                    android:id="@+id/textView7"
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/baseline_person_24" />
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bienvenido"
-                    android:textSize="20sp" />
+                    android:gravity="start"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Bienvenido, "
+                        android:textAlignment="viewStart"
+                        android:textColor="#414F68"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tVnombreAdministrador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:layout_marginTop="2dp"
+                        android:textColor="#022454"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="0dp"
+                        android:text="Administrador"
+                        android:textColor="#6AB32C"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
             </LinearLayout>
+
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="359dp"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:orientation="vertical"
             android:padding="25dp">
 
@@ -57,47 +100,55 @@
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:backgroundTint="#664BF807"
+                android:backgroundTint="#FFFFFF"
+                android:elevation="3dp"
                 android:insetBottom="20dp"
                 android:onClick="adminstrarPartidos"
                 android:text="@string/administrar_partidos"
-                android:textSize="20sp" />
+                android:textColor="#070707"
+                android:textSize="20sp"
+                app:strokeColor="#02173C"
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnActualizarPuntajes"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:backgroundTint="#664BF807"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#66FFFFFF"
+                android:elevation="3dp"
                 android:insetBottom="20dp"
                 android:onClick="actualizarPartidos"
                 android:text="@string/actualizar_puntajes"
-                android:textSize="20sp" />
+                android:textColor="#070707"
+                android:textSize="20sp"
+                app:strokeColor="#02173C"
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnSalir"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:backgroundTint="#664BF807"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#66FFFFFF"
+                android:elevation="3dp"
                 android:insetBottom="20dp"
                 android:onClick="salir"
                 android:text="@string/salir"
-                android:textSize="20sp" />
+                android:textColor="#070707"
+                android:textSize="20sp"
+                app:strokeColor="#02173C"
+                app:strokeWidth="2dp" />
         </LinearLayout>
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/imageView14"
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            app:srcCompat="@drawable/estadioblanco" />
 
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="182dp"
-                android:layout_gravity="bottom"
-                android:contentDescription="@string/fondo_inferior"
-                app:srcCompat="@drawable/button_backgroundv2"
-                tools:ignore="ImageContrastCheck" />
-        </FrameLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

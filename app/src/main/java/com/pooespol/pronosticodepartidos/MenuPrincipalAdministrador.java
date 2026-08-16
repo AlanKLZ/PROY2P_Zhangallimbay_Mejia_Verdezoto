@@ -3,6 +3,7 @@ package com.pooespol.pronosticodepartidos;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MenuPrincipalAdministrador extends AppCompatActivity {
+    private TextView tVnombreAdministrador;
     private Button btnAdminstrarPartidos;
     private Button btnActualizarPartidos;
     private Button btnSalir;
@@ -28,6 +30,9 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
         btnAdminstrarPartidos = findViewById(R.id.btnAdministrarPartidos);
         btnActualizarPartidos = findViewById(R.id.btnActualizarPuntajes);
         btnSalir = findViewById(R.id.btnSalir);
+        tVnombreAdministrador = findViewById(R.id.tVnombreAdministrador);
+        String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
+        tVnombreAdministrador.setText(nombreCompleto);
     }
 
     public void actualizarPartidos(View view){
