@@ -32,6 +32,9 @@ public class Participante extends Usuario implements Comparable<Participante>{
     /**
      * Registra un pronóstico para un partido.
      *
+     * El pronóstico solo puede registrarse cuando el partido
+     * se encuentra en estado ABIERTO.
+     *
      * @param partido partido sobre el cual se realizará el pronóstico
      * @param golesSeleccion1 goles pronosticados para la selección 1
      * @param golesSeleccion2 goles pronosticados para la selección 2
@@ -46,27 +49,32 @@ public class Participante extends Usuario implements Comparable<Participante>{
             int golesSeleccion2)
             throws PronosticoFueraDeTiempoException, DatosIncompletosException {
 
+        // Validar que exista un partido
         if (partido == null) {
             throw new DatosIncompletosException(
                     "No se han ingresado todos los datos necesarios para registrar el pronóstico."
             );
         }
 
+        // Validar que los goles ingresados sean mayores o iguales a cero
         if (golesSeleccion1 < 0 || golesSeleccion2 < 0) {
             throw new DatosIncompletosException(
                     "Los goles deben ser números enteros mayores o iguales a cero."
             );
         }
 
+        // Validar que el partido se encuentre abierto
         if (partido.getEstadoPartido() != EstadoPartido.ABIERTO) {
             throw new PronosticoFueraDeTiempoException(
                     "El período para registrar pronósticos de este partido ya ha finalizado."
             );
         }
 
+        // Se genera un identificador usando el usuario y el partido
         String idPronostico =
                 this.getIdUsuario() + "_" + partido.getIdPartido();
 
+        // Se crea y retorna el pronóstico
         return new Pronostico(
                 idPronostico,
                 this.getIdUsuario(),
@@ -79,7 +87,6 @@ public class Participante extends Usuario implements Comparable<Participante>{
 
     /**
      *
-     * @param otroParticipante the object to be compared.
      * @return Retorna un numero, para luego ordenarlos.
      */
     @Override
@@ -88,9 +95,28 @@ public class Participante extends Usuario implements Comparable<Participante>{
                 otroParticipante.getPuntajeAcumulado(),
                 this.puntajeAcumulado
         );
+
         if (comparacion != 0){
             return comparacion;
         }
-        return this.getNombreCompleto().compareToIgnoreCase(otroParticipante.getNombreCompleto());
+
+        /*
+         * Código original de Alan:
+         *
+         * return this.getNombreCompleto()
+         *         .compareToIgnoreCase(
+         *                 otroParticipante.getNombreCompleto()
+         *         );
+         */
+
+        /*
+         * Corrección según el proyecto:
+         * si dos participantes tienen el mismo puntaje,
+         * se ordenan alfabéticamente por nombre de usuario.
+         */
+        return this.getNombreDeUsuario()
+                .compareToIgnoreCase(
+                        otroParticipante.getNombreDeUsuario()
+                );
     }
 }
