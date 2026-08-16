@@ -48,10 +48,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView9"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/bienvenido" />
+
+                    <TextView
+                        android:id="@+id/tvnombreParticipante"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -64,13 +68,13 @@
             android:padding="25dp">
 
             <Button
-                android:id="@+id/btnTablaClasificacion"
+                android:id="@+id/btnTablaPosiciones"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#94A3F8"
                 android:insetBottom="10dp"
-                android:text="@string/tabla_de_clasificacion"
+                android:text="Tabla de posiciones"
                 android:textColor="#263238" />
 
             <Button
@@ -84,7 +88,7 @@
                 android:textColor="#263238" />
 
             <Button
-                android:id="@+id/btnMisPronostico"
+                android:id="@+id/btnMisPronosticos"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
