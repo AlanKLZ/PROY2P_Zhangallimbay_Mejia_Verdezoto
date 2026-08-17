@@ -36,9 +36,10 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="120dp"
+                    android:layout_height="80dp"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/baseline_person_24"
                     tools:ignore="ContentDescription,ImageContrastCheck,InefficientWeight"
                     tools:srcCompat="@drawable/baseline_person_24" />
 
@@ -83,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#66FFFFFF"
+                android:elevation="3dp"
                 android:insetBottom="10dp"
                 android:onClick="verTablaPosicion"
                 android:text="@string/tabla_de_clasificacion"
@@ -97,6 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#FCFAFD"
+                android:elevation="3dp"
                 android:insetBottom="10dp"
                 android:onClick="verPronosticos"
                 android:text="@string/pronostico"
@@ -111,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#FCFAFD"
+                android:elevation="3dp"
                 android:insetBottom="10dp"
                 android:onClick="verMisPronosticos"
                 android:text="@string/mis_pronosticos"
@@ -125,6 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="#FCFAFD"
+                android:elevation="3dp"
                 android:insetBottom="10dp"
                 android:onClick="salir"
                 android:text="@string/salir"
