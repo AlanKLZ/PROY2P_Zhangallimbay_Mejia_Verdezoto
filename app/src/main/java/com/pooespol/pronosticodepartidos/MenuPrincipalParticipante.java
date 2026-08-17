@@ -22,7 +22,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
     private Button btnPronosticos;
     private Button btnMisPronosticos;
     private Button btnSalirParticipante;
-    private ArrayList<Usuario> usuarios;
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreParticipante.setText(nombreCompleto);
 
-        //usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,7 +49,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
         //Pendiente el manejo de pasar el arraylist
-        // tablaPosicion.putExtra("usuarios",usuarios);
+         tablaPosicion.putExtra("usuarios",usuarios);
         startActivity(tablaPosicion);
     }
     public void verPronosticos(View view){

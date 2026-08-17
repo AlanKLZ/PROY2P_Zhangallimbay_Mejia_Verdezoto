@@ -29,7 +29,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     private ImageButton btnMenu;
     private TableLayout tableClasificacion;
     private Button btnVolver;
-    //private ArrayList<Participante> participantes;
+    private ArrayList<Participante> participantes = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +45,14 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
-//        ArrayList<Usuario> usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
-//        for (Usuario usuario : usuarios) {
-//
-//            if (usuario instanceof Participante) {
-//                participantes.add((Participante) usuario);
-//            }
-//        }
-//        cargarTabla(participantes);
+        ArrayList<Usuario> usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        for (Usuario usuario : usuarios) {
+
+            if (usuario instanceof Participante) {
+                participantes.add((Participante) usuario);
+            }
+        }
+        cargarTabla(participantes);
         //Abre el menu a la izquierda
         btnMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
