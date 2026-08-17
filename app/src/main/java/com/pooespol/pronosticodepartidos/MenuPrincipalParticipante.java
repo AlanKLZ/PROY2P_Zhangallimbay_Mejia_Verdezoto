@@ -49,7 +49,7 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
         //Pendiente el manejo de pasar el arraylist
-        // tablaPosicion.putExtra("usuarios",usuarios);
+        tablaPosicion.putExtra("usuarios",usuarios);
         startActivity(tablaPosicion);
     }
     public void verPronosticos(){

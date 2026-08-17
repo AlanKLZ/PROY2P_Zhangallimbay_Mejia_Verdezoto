@@ -43,9 +43,9 @@
 
             <ImageButton
                 android:id="@+id/btnMenu"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="start|top"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center|start|top"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/abrir_menu"
                 android:maxWidth="48dp"
