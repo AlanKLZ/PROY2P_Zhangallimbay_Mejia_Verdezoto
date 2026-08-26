@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="250dp"
     android:orientation="vertical"
     android:background="@color/cardview_light_background">
 
@@ -13,7 +13,7 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="40dp"
             tools:srcCompat="@drawable/account_iv" />
 
         <TextView
