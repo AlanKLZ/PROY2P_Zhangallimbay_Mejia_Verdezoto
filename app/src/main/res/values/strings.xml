@@ -5,7 +5,7 @@
     <string name="puntos">Puntos</string>
     <string name="pos">Pos.</string>
     <string name="participante">Participante</string>
-    <string name="abrir_menu">Abrir menu</string>
+
     <string name="imagen_de_copa">Imagen de copa</string>
     <string name="imagen_de_encabezado">Imagen de encabezado</string>
     <string name="clasificacion">Clasificacion</string>
@@ -20,4 +20,7 @@
     <string name="mis_pronosticos">Mis pronosticos</string>
     <string name="tabla_de_clasificacion">Tabla de posiciones</string>
     <string name="administrador">Administrador</string>
+
+    <string name="abrir_menu">Abre menu</string>
+    <string name="cerar_menu">Cierra menu</string>
 </resources>

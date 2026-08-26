@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/navClasificacion"
-        android:title="@string/clasificacion" />
-    <item
-        android:id="@+id/navPronostico"
-        android:title="@string/pronostico" />
-    <item
+    <group android:checkableBehavior="single">
+        <item
         android:id="@+id/navPerfil"
-        android:title="@string/mi_perfil" />
+        android:title="@string/mi_perfil"
+        android:icon="@drawable/account_iv"/>
+    </group>
+        <item
+            android:id="@+id/navClasificacion"
+            android:title="@string/clasificacion" />
+        <item
+            android:id="@+id/navPronostico"
+            android:title="@string/pronostico" />
+        <item
+            android:title="Cerrar sesion"
+            android:icon="@drawable/ic_logout"/>
+
 </menu>

@@ -6,8 +6,10 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  */
 public class TablaClasificacionActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    private ImageButton btnMenu;
+    private Toolbar toolbar;
     private TableLayout tableClasificacion;
     private Button btnVolver;
     private ArrayList<Participante> participantes = new ArrayList<>();
@@ -41,7 +43,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
             return insets;
         });
         drawerLayout = findViewById(R.id.drawerLayout);
-        btnMenu = findViewById(R.id.btnMenu);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
@@ -54,9 +58,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         }
         cargarTabla(participantes);
         //Abre el menu a la izquierda
-        btnMenu.setOnClickListener(v -> {
-            drawerLayout.openDrawer(GravityCompat.START);
-        });
+        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.abrir_menu,R.string.cerar_menu);
+        drawerLayout.addDrawerListener(toogle);
+        toogle.syncState();
         //Termina la activity actual y regresa al menu principal
         btnVolver.setOnClickListener(v->{
             finish();

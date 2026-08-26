@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
     <LinearLayout
         android:id="@+id/linearLayout5"
@@ -24,36 +26,13 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="186dp"
+            android:layout_height="176dp"
             android:padding="1dp"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="1"
-                android:contentDescription="@string/imagen_de_encabezado"
-                app:srcCompat="@drawable/encabezado_background"
-                tools:ignore="VisualLintBounds" />
-
-            <ImageButton
-                android:id="@+id/btnMenu"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="start|top"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/abrir_menu"
-                android:maxWidth="48dp"
-                android:minWidth="48dp"
-                android:padding="25dp"
-                android:paddingStart="25dp"
-                android:scaleType="center"
-                app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
             <LinearLayout
                 android:layout_width="293dp"
@@ -62,14 +41,6 @@
                 android:orientation="horizontal"
                 tools:ignore="UseCompoundDrawables">
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="46dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom|start"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/imagen_de_copa"
-                    app:srcCompat="@drawable/copa" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -81,9 +52,18 @@
                     android:textColor="#04125B"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RtlHardcoded"
+                    android:icon="@drawable/copa"/>
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/imagen_de_encabezado"
+                app:srcCompat="@drawable/encabezado_background"
+                tools:ignore="VisualLintBounds" />
 
         </FrameLayout>
 
@@ -97,7 +77,6 @@
                 android:id="@+id/tableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
                 android:stretchColumns="0,1,2">
 
                 <TableRow
@@ -158,11 +137,16 @@
         </FrameLayout>
 
     </LinearLayout>
+    <Toolbar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"/>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />
