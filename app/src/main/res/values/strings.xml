@@ -24,4 +24,5 @@
     <string name="abrir_menu">Abre menu</string>
     <string name="cerar_menu">Cierra menu</string>
     <string name="imagen_de_perfil">imagen de perfil</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
 </resources>

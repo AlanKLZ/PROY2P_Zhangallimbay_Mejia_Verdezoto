@@ -14,7 +14,7 @@
             android:title="@string/pronostico" />
         <item
             android:id="@+id/navCerrarSesion"
-            android:title="Cerrar sesion"
+            android:title="@string/cerrar_sesion"
             android:icon="@drawable/ic_logout"/>
 
 </menu>
