@@ -71,7 +71,6 @@ public class TablaClasificacionActivity extends AppCompatActivity {
             }
         }
         cargarTabla(participantes);
-
         //Abre el menu a la izquierda
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.abrir_menu,R.string.cerar_menu);
         drawerLayout.addDrawerListener(toogle);

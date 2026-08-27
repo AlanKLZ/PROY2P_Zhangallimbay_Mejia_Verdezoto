@@ -25,4 +25,13 @@
     <string name="cerar_menu">Cierra menu</string>
     <string name="imagen_de_perfil">imagen de perfil</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
+    <string-array name="fases_torneo">
+        <item>Fase de grupos</item>
+        <item>Dieciseisavos</item>
+        <item>Octavos</item>
+        <item>Cuartos de final</item>
+        <item>Semifinales</item>
+        <item>Tercer lugar</item>
+        <item>Final</item>
+    </string-array>
 </resources>
