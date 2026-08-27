@@ -22,21 +22,23 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
     private Button btnPronosticos;
     private Button btnMisPronosticos;
     private Button btnSalirParticipante;
-    private ArrayList<Usuario> usuarios;
+    private Participante actual;
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu_principal_participante);
+
         TextView tVnombreParticipante = findViewById(R.id.tvnombreParticipante);
         btnTablaPosiciones = findViewById(R.id.btnTablaPosiciones);
         btnPronosticos = findViewById(R.id.btnPronosticos);
         btnMisPronosticos = findViewById(R.id.btnMisPronosticos);
         btnSalirParticipante = findViewById(R.id.btnSalirParticipante);
-        String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
-        tVnombreParticipante.setText(nombreCompleto);
-        btnPronosticos.setOnClickListener(v-> verPronosticos());
+        actual = (Participante) getIntent().getSerializableExtra("actual");
+        tVnombreParticipante.setText(actual.getNombreCompleto());
+
         usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -45,11 +47,11 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
             return insets;
         });
     }
-
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
         //Pendiente el manejo de pasar el arraylist
         tablaPosicion.putExtra("usuarios",usuarios);
+        tablaPosicion.putExtra("actual",actual);
         startActivity(tablaPosicion);
     }
     public void verPronosticos(){
