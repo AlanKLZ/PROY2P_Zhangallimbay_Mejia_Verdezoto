@@ -77,9 +77,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
 
-        //Cierra sesion desde el menu
+        //Aqui se configura los items del menú
         navegationView.setNavigationItemSelectedListener(item -> {
-
+            //Listener para cerrar sesion
             if (item.getItemId() == R.id.navCerrarSesion) {
 
                 Intent intent = new Intent(
@@ -118,6 +118,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         puntosMenu.setText(
                 "Puntos: " + actual.getPuntajeAcumulado()
         );
+        cargarTabla(participantes);
     }
 
     /**
@@ -126,6 +127,12 @@ public class TablaClasificacionActivity extends AppCompatActivity {
      * @param participantes Lista de participantes a mostrar
      */
     private void cargarTabla(ArrayList<Participante> participantes) {
+        // Elimina las filas anteriores, conservando el encabezado para actualizarlo en el onResume
+        int cantidadFilas = tableClasificacion.getChildCount();
+
+        if (cantidadFilas > 1) {
+            tableClasificacion.removeViews(1, cantidadFilas - 1);
+        }
 
         participantes.sort(null);
 
