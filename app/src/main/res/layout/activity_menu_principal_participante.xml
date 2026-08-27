@@ -36,7 +36,7 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     tools:ignore="ContentDescription,ImageContrastCheck,InefficientWeight"
@@ -87,51 +87,51 @@
                 android:onClick="verTablaPosicion"
                 android:text="@string/tabla_de_clasificacion"
                 android:textColor="#263238"
+                android:textSize="20sp"
                 app:strokeColor="#7BBE32"
-                app:strokeWidth="2dp"
-                tools:ignore="VisualLintButtonSize" />
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnPronosticos"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:backgroundTint="#FCFAFD"
+                android:backgroundTint="#66FFFFFF"
                 android:insetBottom="10dp"
                 android:onClick="verPronosticos"
                 android:text="@string/pronostico"
                 android:textColor="#263238"
+                android:textSize="20sp"
                 app:strokeColor="#7BBE32"
-                app:strokeWidth="2dp"
-                tools:ignore="VisualLintButtonSize" />
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnMisPronosticos"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:backgroundTint="#FCFAFD"
+                android:backgroundTint="#66FFFFFF"
                 android:insetBottom="10dp"
                 android:onClick="verMisPronosticos"
                 android:text="@string/mis_pronosticos"
                 android:textColor="#263238"
+                android:textSize="20sp"
                 app:strokeColor="#7BBE32"
-                app:strokeWidth="2dp"
-                tools:ignore="VisualLintButtonSize" />
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/btnSalirParticipante"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:backgroundTint="#FCFAFD"
+                android:backgroundTint="#66FFFFFF"
                 android:insetBottom="10dp"
                 android:onClick="salir"
                 android:text="@string/salir"
                 android:textColor="#263238"
+                android:textSize="20sp"
                 app:strokeColor="#7BBE32"
-                app:strokeWidth="2dp"
-                tools:ignore="VisualLintButtonSize" />
+                app:strokeWidth="2dp" />
         </LinearLayout>
 
         <FrameLayout
