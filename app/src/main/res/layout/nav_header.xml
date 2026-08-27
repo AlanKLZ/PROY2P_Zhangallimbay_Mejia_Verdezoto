@@ -4,36 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:orientation="vertical"
-    android:background="@color/cardview_light_background">
+    android:background="#9FFFA3"
+    android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageAccount"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
+            android:contentDescription="@string/imagen_de_perfil"
+            android:scaleType="centerCrop"
             tools:srcCompat="@drawable/account_iv" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/nombreMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre"
             android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:text=""
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="5dp"/>
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/puntosMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Puntos: "
             android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="Puntos: "
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="5dp"/>
+            android:textStyle="bold" />
 
 </LinearLayout>

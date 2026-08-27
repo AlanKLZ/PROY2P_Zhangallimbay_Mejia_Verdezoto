@@ -1,6 +1,8 @@
 package com.pooespol.pronosticodepartidos;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
@@ -17,6 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
@@ -31,7 +34,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TableLayout tableClasificacion;
     private Button btnVolver;
+    private NavigationView navegationView;
     private ArrayList<Participante> participantes = new ArrayList<>();
+    private Participante actual;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,16 @@ public class TablaClasificacionActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        actual = (Participante) getIntent().getSerializableExtra("actual");
+        //Configuracion del menu
         drawerLayout = findViewById(R.id.drawerLayout);
+        navegationView = findViewById(R.id.navigationView);
+
+        //Instanciando el header
+        View headerView = navegationView.getHeaderView(0);
+        TextView nombreMenu = headerView.findViewById(R.id.nombreMenu);
+        nombreMenu.setText(actual.getNombreCompleto());
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -57,14 +71,53 @@ public class TablaClasificacionActivity extends AppCompatActivity {
             }
         }
         cargarTabla(participantes);
+
         //Abre el menu a la izquierda
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.abrir_menu,R.string.cerar_menu);
         drawerLayout.addDrawerListener(toogle);
         toogle.syncState();
+
+        //Cierra sesion desde el menu
+        navegationView.setNavigationItemSelectedListener(item -> {
+
+            if (item.getItemId() == R.id.navCerrarSesion) {
+
+                Intent intent = new Intent(
+                        TablaClasificacionActivity.this,
+                        MainActivity.class
+                );
+
+                // Elimina las Activities anteriores
+                // para que no pueda regresar con el botón atrás.
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                );
+
+                startActivity(intent);
+
+                return true;
+            }
+
+            return false;
+        });
         //Termina la activity actual y regresa al menu principal
         btnVolver.setOnClickListener(v->{
             finish();
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View headerView = navegationView.getHeaderView(0);
+
+        TextView puntosMenu =
+                headerView.findViewById(R.id.puntosMenu);
+
+        puntosMenu.setText(
+                "Puntos: " + actual.getPuntajeAcumulado()
+        );
     }
 
     /**
