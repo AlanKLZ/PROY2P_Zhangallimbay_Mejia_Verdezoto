@@ -5,7 +5,7 @@
     <string name="puntos">Puntos</string>
     <string name="pos">Pos.</string>
     <string name="participante">Participante</string>
-    <string name="abrir_menu">Abrir menu</string>
+
     <string name="imagen_de_copa">Imagen de copa</string>
     <string name="imagen_de_encabezado">Imagen de encabezado</string>
     <string name="clasificacion">Clasificacion</string>
@@ -18,5 +18,20 @@
     <string name="fondo_inferior">Fondo inferior</string>
     <string name="bienvenido">Bienvenido,</string>
     <string name="mis_pronosticos">Mis pronosticos</string>
-    <string name="tabla_de_clasificacion">Tabla de clasificacion</string>
+    <string name="tabla_de_clasificacion">Tabla de posiciones</string>
+    <string name="administrador">Administrador</string>
+
+    <string name="abrir_menu">Abre menu</string>
+    <string name="cerar_menu">Cierra menu</string>
+    <string name="imagen_de_perfil">imagen de perfil</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
+    <string-array name="fases_torneo">
+        <item>Fase de grupos</item>
+        <item>Dieciseisavos</item>
+        <item>Octavos</item>
+        <item>Cuartos de final</item>
+        <item>Semifinales</item>
+        <item>Tercer lugar</item>
+        <item>Final</item>
+    </string-array>
 </resources>

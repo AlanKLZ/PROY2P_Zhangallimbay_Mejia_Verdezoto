@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.pooespol.pronosticodepartidos.modelo.CredencialesInvalidasException;
 import com.pooespol.pronosticodepartidos.modelo.ManejoArchivosUsuario;
+import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.TipoUsuario;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MenuPrincipalParticipante.class);
                 intent.putExtra("idUsuario", usuarioAutenticado.getIdUsuario());
                 intent.putExtra("nombreCompleto", usuarioAutenticado.getNombreCompleto());
+                intent.putExtra("actual",usuarioAutenticado);
+                intent.putExtra("usuarios",usuarios);
                 startActivity(intent);
             }else if(usuarioAutenticado.getTipoUsuario() == TipoUsuario.ADMINISTRADOR){
                 Intent intent = new Intent(MainActivity.this, MenuPrincipalAdministrador.class);

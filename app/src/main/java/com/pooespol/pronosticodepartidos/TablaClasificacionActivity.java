@@ -1,13 +1,17 @@
 package com.pooespol.pronosticodepartidos;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
@@ -15,15 +19,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.navigation.NavigationView;
+import com.pooespol.pronosticodepartidos.modelo.Participante;
+import com.pooespol.pronosticodepartidos.modelo.Usuario;
+
+import java.util.ArrayList;
+
 
 /**
  * Activity para la tabla de posiciones
  */
 public class TablaClasificacionActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    private ImageButton btnMenu;
+    private Toolbar toolbar;
     private TableLayout tableClasificacion;
     private Button btnVolver;
+    private NavigationView navegationView;
+    private ArrayList<Participante> participantes = new ArrayList<>();
+    private Participante actual;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,18 +47,117 @@ public class TablaClasificacionActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        actual = (Participante) getIntent().getSerializableExtra("actual");
+        //Configuracion del menu
         drawerLayout = findViewById(R.id.drawerLayout);
-        btnMenu = findViewById(R.id.btnMenu);
+        navegationView = findViewById(R.id.navigationView);
+
+        //Instanciando el header
+        View headerView = navegationView.getHeaderView(0);
+        TextView nombreMenu = headerView.findViewById(R.id.nombreMenu);
+        nombreMenu.setText(actual.getNombreCompleto());
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
+        ArrayList<Usuario> usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
+        for (Usuario usuario : usuarios) {
+
+            if (usuario instanceof Participante) {
+                participantes.add((Participante) usuario);
+            }
+        }
+        cargarTabla(participantes);
         //Abre el menu a la izquierda
-        btnMenu.setOnClickListener(v -> {
-            drawerLayout.openDrawer(GravityCompat.START);
+        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.abrir_menu,R.string.cerar_menu);
+        drawerLayout.addDrawerListener(toogle);
+        toogle.syncState();
+
+        //Aqui se configura los items del menú
+        navegationView.setNavigationItemSelectedListener(item -> {
+            //Listener para cerrar sesion
+            if (item.getItemId() == R.id.navCerrarSesion) {
+
+                Intent intent = new Intent(
+                        TablaClasificacionActivity.this,
+                        MainActivity.class
+                );
+
+                // Elimina las Activities anteriores
+                // para que no pueda regresar con el botón atrás.
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                );
+
+                startActivity(intent);
+
+                return true;
+            }
+
+            return false;
         });
         //Termina la activity actual y regresa al menu principal
         btnVolver.setOnClickListener(v->{
             finish();
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        View headerView = navegationView.getHeaderView(0);
+
+        TextView puntosMenu =
+                headerView.findViewById(R.id.puntosMenu);
+
+        puntosMenu.setText(
+                "Puntos: " + actual.getPuntajeAcumulado()
+        );
+        cargarTabla(participantes);
+    }
+
+    /**
+     *Crea filas con los datos de todos los participantes, ordenados por mayor numero
+     * de puntos y alfabeticamente
+     * @param participantes Lista de participantes a mostrar
+     */
+    private void cargarTabla(ArrayList<Participante> participantes) {
+        // Elimina las filas anteriores, conservando el encabezado para actualizarlo en el onResume
+        int cantidadFilas = tableClasificacion.getChildCount();
+
+        if (cantidadFilas > 1) {
+            tableClasificacion.removeViews(1, cantidadFilas - 1);
+        }
+
+        participantes.sort(null);
+
+        int posicion = 1;
+
+        for (Participante participante : participantes) {
+
+            TableRow fila = new TableRow(this);
+
+            TextView tvPosicion = new TextView(this);
+            TextView tvParticipante = new TextView(this);
+            TextView tvPuntaje = new TextView(this);
+
+            tvPosicion.setText(String.valueOf(posicion));
+            tvParticipante.setText(participante.getNombreCompleto());
+            tvPuntaje.setText(
+                    String.valueOf(participante.getPuntajeAcumulado())
+            );
+
+            fila.addView(tvPosicion);
+            fila.addView(tvParticipante);
+            fila.addView(tvPuntaje);
+
+            tableClasificacion.addView(fila);
+
+            posicion++;
+        }
     }
 }
