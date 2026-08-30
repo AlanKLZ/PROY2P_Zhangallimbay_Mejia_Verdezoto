@@ -100,9 +100,7 @@ public class Participante extends Usuario implements Comparable<Participante>{
             return comparacion;
         }
 
-        return this.getNombreCompleto()
-        .compareToIgnoreCase(
-                otroParticipante.getNombreCompleto()
+        return this.getNombreCompleto().compareToIgnoreCase(otroParticipante.getNombreCompleto()
         );
         
                 
