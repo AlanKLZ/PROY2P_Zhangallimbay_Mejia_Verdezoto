@@ -100,23 +100,11 @@ public class Participante extends Usuario implements Comparable<Participante>{
             return comparacion;
         }
 
-        /*
-         * Código original de Alan:
-         *
-         * return this.getNombreCompleto()
-         *         .compareToIgnoreCase(
-         *                 otroParticipante.getNombreCompleto()
-         *         );
-         */
-
-        /*
-         * Corrección según el proyecto:
-         * si dos participantes tienen el mismo puntaje,
-         * se ordenan alfabéticamente por nombre de usuario.
-         */
-        return this.getNombreDeUsuario()
-                .compareToIgnoreCase(
-                        otroParticipante.getNombreDeUsuario()
-                );
+        return this.getNombreCompleto()
+        .compareToIgnoreCase(
+                otroParticipante.getNombreCompleto()
+        );
+        
+                
     }
 }
