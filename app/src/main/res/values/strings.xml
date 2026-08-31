@@ -25,6 +25,9 @@
     <string name="cerar_menu">Cierra menu</string>
     <string name="imagen_de_perfil">imagen de perfil</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="fase_del_torneo">Fase del Torneo</string>
+    <string name="pron_sticos">Pronósticos</string>
+    <string name="actualizar_puntaje">Actualizar puntaje</string>
     <string-array name="fases_torneo">
         <item>Fase de grupos</item>
         <item>Dieciseisavos</item>
