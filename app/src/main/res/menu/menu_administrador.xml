@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navPerfil"
+            android:title="@string/mi_perfil"
+            android:icon="@drawable/account_iv"/>
+    </group>
+    <item
+        android:id="@+id/navAdministrarPartidos"
+        android:title="@string/administrar_partidos" />
+    <item
+        android:id="@+id/navPronostico"
+        android:title="@string/actualizar_puntaje" />
+    <item
+        android:id="@+id/navCerrarSesion"
+        android:title="@string/cerrar_sesion"
+        android:icon="@drawable/ic_logout"/>
+
+</menu>
