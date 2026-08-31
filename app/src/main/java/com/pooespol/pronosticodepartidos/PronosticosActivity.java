@@ -75,7 +75,7 @@ public class PronosticosActivity extends AppCompatActivity {
                 EstadoPartido.ABIERTO));
 
         partidos.add(new Partido("003",
-                Fase.OCTAVOS,
+                Fase.OCTAVOS_DE_FINAL,
                 "05/sep",
                 "20:00",
                 "Estadio Olímpico",
@@ -114,15 +114,15 @@ public class PronosticosActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        faseSeleccionada = Fase.DIECISEISAVOS;
+                        faseSeleccionada = Fase.DIECISEISAVOS_DE_FINAL;
                         break;
 
                     case 2:
-                        faseSeleccionada = Fase.OCTAVOS;
+                        faseSeleccionada = Fase.OCTAVOS_DE_FINAL;
                         break;
 
                     case 3:
-                        faseSeleccionada = Fase.CUARTOS;
+                        faseSeleccionada = Fase.CUARTOS_DE_FINAL;
                         break;
 
                     case 4:
