@@ -34,7 +34,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TableLayout tableClasificacion;
     private Button btnVolver;
-    private NavigationView navegationView;
+    private NavigationView navigationView;
     private ArrayList<Participante> participantes = new ArrayList<>();
     private Participante actual;
     @Override
@@ -50,10 +50,10 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         actual = (Participante) getIntent().getSerializableExtra("actual");
         //Configuracion del menu
         drawerLayout = findViewById(R.id.drawerLayout);
-        navegationView = findViewById(R.id.navigationView);
+        navigationView = findViewById(R.id.navigationView);
 
         //Instanciando el header
-        View headerView = navegationView.getHeaderView(0);
+        View headerView = navigationView.getHeaderView(0);
         TextView nombreMenu = headerView.findViewById(R.id.nombreMenu);
         nombreMenu.setText(actual.getNombreCompleto());
 
@@ -77,7 +77,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         toogle.syncState();
 
         //Aqui se configura los items del menú
-        navegationView.setNavigationItemSelectedListener(item -> {
+        navigationView.setNavigationItemSelectedListener(item -> {
             //Listener para cerrar sesion
             if (item.getItemId() == R.id.navCerrarSesion) {
 
@@ -109,7 +109,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        View headerView = navegationView.getHeaderView(0);
+        View headerView = navigationView.getHeaderView(0);
 
         TextView puntosMenu =
                 headerView.findViewById(R.id.puntosMenu);
