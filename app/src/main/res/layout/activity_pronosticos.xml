@@ -31,6 +31,7 @@
             android:layout_weight="1">
 
             <LinearLayout
+                android:id="@+id/contenedor"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="1dp"
@@ -43,25 +44,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <FrameLayout
+                <TextView
+                    android:id="@+id/textView12"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|top">
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="20dp"
-                        android:background="#624D9D"
-                        android:gravity="center"
-                        android:text="Pronósticos"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-                </FrameLayout>
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#E8FFE9"
+                    android:gravity="center"
+                    android:text="Pronósticos"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -75,29 +68,41 @@
                 <Spinner
                     android:id="@+id/spFase"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="20dp"
                     android:entries="@array/fases_torneo" />
 
                 <ScrollView
+                    android:id="@+id/scrollViewPartidos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fillViewport="true"
+                    android:clipToPadding="false">
 
                     <LinearLayout
                         android:id="@+id/llPartidos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:orientation="vertical"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="6dp"/>
 
                 </ScrollView>
 
                 <Button
                     android:id="@+id/btVolver"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Volver al menú principal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="#F2F2F2"
+                    android:textColor="#333333"
+                    android:textAllCaps="false"
                     android:text="Volver" />
 
             </LinearLayout>
