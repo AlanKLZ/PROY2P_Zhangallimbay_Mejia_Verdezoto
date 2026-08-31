@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.pooespol.pronosticodepartidos.modelo.CredencialesInvalidasException;
-import com.pooespol.pronosticodepartidos.modelo.ManejoArchivosUsuario;
+import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.TipoUsuario;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         btnIniciarSesion = findViewById(R.id.btnInicioSesion);
         btnIniciarSesion.setOnClickListener(v-> iniciarSesion());
 
-        usuarios = ManejoArchivosUsuario.leerUsuarios(this);
+        ManejoArchivos manejoArchivos = new ManejoArchivos(this);
+        usuarios = manejoArchivos.leerUsuarios();
     }
 
     /**
