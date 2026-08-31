@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MenuPrincipalAdministrador.class);
                 intent.putExtra("idUsuario", usuarioAutenticado.getIdUsuario());
                 intent.putExtra("nombreCompleto", usuarioAutenticado.getNombreCompleto());
+                intent.putExtra("actual",usuarioAutenticado);
                 startActivity(intent);
 
             }

@@ -154,7 +154,6 @@ public class PronosticosActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                llPartidos.removeAllViews();
             }
         });
         // Configuracion del menu lateral
