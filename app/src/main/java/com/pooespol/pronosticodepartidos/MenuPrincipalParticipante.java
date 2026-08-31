@@ -54,9 +54,10 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         tablaPosicion.putExtra("actual",actual);
         startActivity(tablaPosicion);
     }
-    public void verPronosticos(){
-        Intent intent = new Intent(MenuPrincipalParticipante.this,PronosticosActivity.class);
-        startActivity(intent);
+    public void verPronosticos(View view){
+        Intent pronosticos = new Intent(MenuPrincipalParticipante.this,PronosticosActivity.class);
+        pronosticos.putExtra("actual",actual);
+        startActivity(pronosticos);
     }
     public void verMisPronosticos(View view){
 
