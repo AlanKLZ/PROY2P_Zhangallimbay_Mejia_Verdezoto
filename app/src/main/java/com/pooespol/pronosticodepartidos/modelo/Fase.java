@@ -10,9 +10,9 @@ package com.pooespol.pronosticodepartidos.modelo;
  */
 public enum Fase {
     FASE_DE_GRUPOS,
-    DIECISEISAVOS,
-    OCTAVOS,
-    CUARTOS,
+    DIECISEISAVOS_DE_FINAL,
+    OCTAVOS_DE_FINAL,
+    CUARTOS_DE_FINAL,
     SEMIFINALES,
     TERCER_LUGAR,
     FINAL
