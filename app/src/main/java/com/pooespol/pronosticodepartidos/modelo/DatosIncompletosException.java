@@ -14,7 +14,6 @@ public class DatosIncompletosException extends Exception {
      *
      * @param mensaje mensaje que describe la causa del error
      */
-
     public DatosIncompletosException(String mensaje) {
         super(mensaje);
     }
