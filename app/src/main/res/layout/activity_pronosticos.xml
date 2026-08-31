@@ -96,17 +96,24 @@
 
                 </ScrollView>
 
-                <Button
-                    android:id="@+id/btVolver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="8dp"
-                    android:backgroundTint="#F2F2F2"
-                    android:text="@string/volver"
-                    android:textAllCaps="false"
-                    android:textColor="#333333" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/button_backgroundv2"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btVolver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="#F2F2F2"
+                        android:text="@string/volver"
+                        android:textAllCaps="false"
+                        android:textColor="#333333" />
+                </LinearLayout>
 
             </LinearLayout>
 

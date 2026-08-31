@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.pooespol.pronosticodepartidos.modelo.Administrador;
 import com.pooespol.pronosticodepartidos.modelo.DatosIncompletosException;
 import com.pooespol.pronosticodepartidos.modelo.EstadoPartido;
+import com.pooespol.pronosticodepartidos.modelo.Fase;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
 import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
@@ -35,12 +39,14 @@ import java.util.ArrayList;
 public class ActualizarPartidosActivity extends AppCompatActivity {
     private Spinner spFase;
     private Administrador actual;
+    private LinearLayout llPartidos;
+    private ArrayList<Partido> partidos = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_actualizar_partidos);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -48,8 +54,9 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         //Asigando views
         actual = (Administrador) getIntent().getSerializableExtra("actual");
         spFase = findViewById(R.id.spFase);
-        LinearLayout linearLayout = findViewById(R.id.llPartidos);
-        Button btnVolver = findViewById(R.id.btnVolver);
+        llPartidos = findViewById(R.id.llPartidos);
+        Button btnVolver = findViewById(R.id.btVolver);
+        //partidos = ManejoArchivos.cargarPartidos();
 
         //Configuracion del menu
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
@@ -71,7 +78,6 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             //Listener para cerrar sesion
             if (item.getItemId() == R.id.navCerrarSesion) {
-
                 Intent intent = new Intent(
                         ActualizarPartidosActivity.this,
                         MainActivity.class
@@ -88,9 +94,73 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
 
                 return true;
             }
-
             return false;
         });
+
+        //Listener para el spinner
+        spFase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(
+                    AdapterView<?> parent,
+                    View view,
+                    int position,
+                    long id
+            ) {
+
+                Fase faseSeleccionada;
+
+                switch (position) {
+
+                    case 0:
+                        faseSeleccionada =
+                            Fase.FASE_DE_GRUPOS;
+                        break;
+
+                    case 1:
+                        faseSeleccionada =
+                            Fase.DIECISEISAVOS;
+                        break;
+                    case 2:
+                        faseSeleccionada =
+                            Fase.OCTAVOS;
+                        break;
+
+                    case 3:
+                        faseSeleccionada =
+                            Fase.CUARTOS;
+                        break;
+
+                    case 4:
+                        faseSeleccionada =
+                            Fase.SEMIFINALES;
+                        break;
+
+                    case 5:
+                        faseSeleccionada =
+                            Fase.TERCER_LUGAR;
+                        break;
+
+                    case 6:
+                        faseSeleccionada =
+                            Fase.FINAL;
+                        break;
+
+                    default:
+                        return;
+                }
+                ArrayList<Partido> partidosFiltrados = new ArrayList<>();
+
+                for (Partido partido : partidos) {
+                    if (partido.getFaseTorneo() == faseSeleccionada) {
+                        partidosFiltrados.add(partido);
+                    }
+                }
+                mostrarPartidos(partidosFiltrados);
+            }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+            }
+        );
         //Termina la activity actual y regresa al menu principal
         btnVolver.setOnClickListener(v->{
             finish();
@@ -106,8 +176,6 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         TextView tvGol1 = vistaPartido.findViewById(R.id.tvGol1);
         TextView tvGol2 = vistaPartido.findViewById(R.id.tvGol2);
         Button btnAccion = vistaPartido.findViewById(R.id.btnAccion);
-
-        String idResultado = "000"; //Pendiente
 
         switch (partido.getEstadoPartido()) {
 
@@ -199,9 +267,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                 llMarcadorEditable.setVisibility(View.GONE);
                 llMarcadorFinal.setVisibility(View.VISIBLE);
 
-                Resultado resultado = obtenerResultado(
-                        partido.getIdPartido()
-                );
+                //Resultado resultado = obtenerResultado(partido.getIdPartido());
 
                 if (resultado != null) {
                     tvGol1.setText(String.valueOf(resultado.getGolesSeleccion1()));
@@ -212,14 +278,45 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                 break;
         }
     }
-    public Resultado obtenerResultado(String idPartido){
-        ArrayList<Resultado> resultados = new ArrayList<>();
-        //resultados = ManejoArchivos metodo pendiente
-        for (Resultado r:resultados){
-            if(idPartido.equals(r.getIdPartido())){
-                return r;
-            }
+    public void mostrarPartidos(ArrayList<Partido> partidosFiltrados) {
+
+        // Eliminar los partidos mostrados anteriormente
+        llPartidos.removeAllViews();
+
+        for (Partido partido : partidosFiltrados) {
+            View vistaPartido = getLayoutInflater()
+                    .inflate(
+                            R.layout.item_administrar_partido,
+                            llPartidos,
+                            false
+                    );
+
+            TextView tvFecha = vistaPartido.findViewById(R.id.tvFecha);
+
+            TextView tvHora = vistaPartido.findViewById(R.id.tvHora);
+
+            TextView tvEstadio = vistaPartido.findViewById(R.id.tvEstadio);
+
+            TextView tvSeleccion1 = vistaPartido.findViewById(R.id.tvSeleccion1);
+
+            TextView tvSeleccion2 = vistaPartido.findViewById(R.id.tvSeleccion2);
+
+            ImageView imgSeleccion1 = vistaPartido.findViewById(R.id.imgSeleccion1);
+
+            ImageView imgSeleccion2 = vistaPartido.findViewById(R.id.imgSeleccion2);
+
+
+            // Cargar información común
+            tvFecha.setText(partido.getFecha());
+            tvHora.setText(partido.getHora());
+            tvEstadio.setText(partido.getEstadio());
+
+            tvSeleccion1.setText(partido.getSeleccion1());
+            tvSeleccion2.setText(partido.getSeleccion2());
+
+
+            configurarEstadoPartido(vistaPartido, partido);
+            llPartidos.addView(vistaPartido);
         }
-        return null;
     }
 }
