@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
@@ -63,14 +64,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         tableClasificacion = findViewById(R.id.tableLayout);
         btnVolver = findViewById(R.id.btnVolver);
 
-        ArrayList<Usuario> usuarios = (ArrayList<Usuario>)getIntent().getSerializableExtra("usuarios");
-        for (Usuario usuario : usuarios) {
-
-            if (usuario instanceof Participante) {
-                participantes.add((Participante) usuario);
-            }
-        }
+        actualizarParticipantes();
         cargarTabla(participantes);
+
         //Abre el menu a la izquierda
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.abrir_menu,R.string.cerar_menu);
         drawerLayout.addDrawerListener(toogle);
@@ -89,7 +85,6 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         );
 
         intent.putExtra("actual", actual);
-        intent.putExtra("usuarios", usuarios);
 
         startActivity(intent);
         return true;
@@ -124,7 +119,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        actualizarParticipantes();
         View headerView = navigationView.getHeaderView(0);
 
         TextView puntosMenu =
@@ -136,6 +131,20 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         cargarTabla(participantes);
     }
 
+    //falta el javadoc
+    private void actualizarParticipantes(){
+        participantes.clear();
+        ArrayList<Usuario> usuarios = ManejoArchivos.leerUsuarios(this);
+        for(Usuario usuario: usuarios){
+            if(usuario instanceof Participante){
+                Participante participante = (Participante) usuario;
+                participantes.add(participante);
+                if(participante.getIdUsuario().equals(actual.getIdUsuario())){
+                    actual=participante;
+                }
+            }
+        }
+    }
     /**
      *Crea filas con los datos de todos los participantes, ordenados por mayor numero
      * de puntos y alfabeticamente

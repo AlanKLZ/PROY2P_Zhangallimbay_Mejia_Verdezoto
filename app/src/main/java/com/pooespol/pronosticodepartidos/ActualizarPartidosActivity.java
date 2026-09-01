@@ -171,6 +171,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
     private void configurarEstadoPartido(View vistaPartido, Partido partido) {
 
         TextView tvEstado = vistaPartido.findViewById(R.id.tvEstado);
+        TextView tvMensaje = vistaPartido.findViewById(R.id.tvMensaje);
         LinearLayout llMarcadorEditable = vistaPartido.findViewById(R.id.llMarcadorEditable);
         LinearLayout llMarcadorFinal = vistaPartido.findViewById(R.id.llMarcadorFinal);
         EditText etGol1 = vistaPartido.findViewById(R.id.etGol1);
@@ -184,6 +185,10 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
             case ABIERTO:
                 tvEstado.setText("ABIERTO");
                 tvEstado.setTextColor(Color.parseColor("#388E3C"));
+                tvMensaje.setText(("Los participantes pueden registrar o modificar sus pronósticos"));
+                tvMensaje.setTextColor(Color.parseColor("#212121"));
+                tvMensaje.setBackgroundColor(Color.parseColor("#67f58d"));
+
 
                 llMarcadorEditable.setVisibility(View.VISIBLE);
                 llMarcadorFinal.setVisibility(View.GONE);
@@ -199,7 +204,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
 
                 btnAccion.setOnClickListener(v -> {
                     partido.setEstadoPartido(EstadoPartido.CERRADO);
-                    ManejoArchivos.registrarPartido(partido, this);
+                    ManejoArchivos.guardarPartidos(partidos, this);
                     configurarEstadoPartido(vistaPartido, partido);
                 });
 
@@ -208,6 +213,9 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
             case CERRADO:
                 tvEstado.setText("CERRADO");
                 tvEstado.setTextColor(Color.parseColor("#F57C00"));
+                tvMensaje.setText(("Los pronósticos están cerrados.\nRegistra el resultado oficial cuando el partido haya finalizado"));
+                tvMensaje.setTextColor(Color.parseColor("#9c6000"));
+                tvMensaje.setBackgroundColor(Color.parseColor("#f5d6a4"));
 
                 llMarcadorEditable.setVisibility(View.VISIBLE);
                 llMarcadorFinal.setVisibility(View.GONE);
@@ -252,10 +260,8 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                         );
 
                         ManejoArchivos.registrarResultado(resultado, this);
-
                         partido.setEstadoPartido(EstadoPartido.FINALIZADO);
-                        ManejoArchivos.registrarPartido(partido, this);
-
+                        ManejoArchivos.guardarPartidos(partidos, this);
                         configurarEstadoPartido(vistaPartido, partido);
 
                     } catch (DatosIncompletosException | PronosticoFueraDeTiempoException e) {
@@ -267,6 +273,9 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
             case FINALIZADO:
                 tvEstado.setText("FINALIZADO");
                 tvEstado.setTextColor(Color.parseColor("#D32F2F"));
+                tvMensaje.setText(("Resultado registrado. El partido ha finalizado"));
+                tvMensaje.setTextColor(Color.parseColor("#020036"));
+                tvMensaje.setBackgroundColor(Color.parseColor("#aeabf5"));
 
                 llMarcadorEditable.setVisibility(View.GONE);
                 llMarcadorFinal.setVisibility(View.VISIBLE);
@@ -294,7 +303,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                             llPartidos,
                             false
                     );
-
+            TextView tvIdPartido = vistaPartido.findViewById(R.id.tvIdPartido);
             TextView tvFecha = vistaPartido.findViewById(R.id.tvFecha);
 
             TextView tvHora = vistaPartido.findViewById(R.id.tvHora);
@@ -314,6 +323,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
             tvFecha.setText(partido.getFecha());
             tvHora.setText(partido.getHora());
             tvEstadio.setText(partido.getEstadio());
+            tvIdPartido.setText(partido.getIdPartido());
 
             tvSeleccion1.setText(partido.getSeleccion1());
             tvSeleccion2.setText(partido.getSeleccion2());
