@@ -17,16 +17,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.pooespol.pronosticodepartidos.modelo.DatosIncompletosException;
 import com.pooespol.pronosticodepartidos.modelo.EstadoPartido;
 import com.pooespol.pronosticodepartidos.modelo.Fase;
 import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
+import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
 import java.util.ArrayList;
@@ -241,6 +244,29 @@ btVolver.setOnClickListener(v -> {
 
             Button buttonGuardar = vistaPartido.findViewById(R.id.buttonGuardar);
             //Pendiente el listener de este boton
+            buttonGuardar.setOnClickListener(v -> {
+                try {
+                    if (partido.getEstadoPartido() == EstadoPartido.CERRADO ||
+                            partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
+                        throw new PronosticoFueraDeTiempoException(
+                                "El tiempo para realizar el pronóstico ha terminado."
+                        );
+                    }
+                    String goles1 = gol1.getText().toString().trim();
+                    String goles2 = gol2.getText().toString().trim();
+
+                    if (goles1.isEmpty() || goles2.isEmpty()) {
+                        throw new DatosIncompletosException(
+                                "Debe ingresar el resultado de ambos equipos."
+                        );
+                    }
+
+                    //registrarPronostico(); actual.getId()
+
+                } catch (PronosticoFueraDeTiempoException | DatosIncompletosException e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
             // Asignar información del objeto
             tvFecha.setText(partido.getFecha());
