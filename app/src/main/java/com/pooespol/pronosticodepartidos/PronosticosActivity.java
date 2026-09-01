@@ -204,6 +204,15 @@ public class PronosticosActivity extends AppCompatActivity {
         return true;
     }
 
+    // Ir a Mis Pronósticos
+    // Pendiente: agregar navegación cuando se cree la Activity de Mis Pronósticos
+    /*
+    if (item.getItemId() == R.id.navPerfil) {
+        // Aquí se abrirá la Activity de Mis Pronósticos
+        return true;
+    }
+*/
+
     // Cerrar sesión
     if (item.getItemId() == R.id.navCerrarSesion) {
 
