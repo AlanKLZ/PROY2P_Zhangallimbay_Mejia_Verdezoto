@@ -59,7 +59,7 @@ public class ActualizarPuntajesActivity extends AppCompatActivity {
 
         resultados = ManejoArchivos.leerResultados(this);
 
-        pronosticos = ManejoArchivos.leerPronosticos(this);
+        pronosticos = ManejoArchivos.leerTodosPronosticos(this);
         buttonAPuntajes.setOnClickListener(view -> {
             administrador.actualizarPuntajes(participantes,pronosticos,partidos,resultados);
             ManejoArchivos.guardarParticipantes(participantes, this);

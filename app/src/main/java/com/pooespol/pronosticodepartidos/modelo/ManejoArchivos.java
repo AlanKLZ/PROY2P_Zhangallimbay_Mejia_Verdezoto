@@ -31,7 +31,6 @@ public class ManejoArchivos {
     private static final String ARCHIVO_ADMINISTRADORES = "administradores.txt";
     private static final String ARCHIVO_PARTIDOS = "partidos.txt";
     private static final String ARCHIVO_RESULTADOS = "resultados.txt";
-    private static final String ARCHIVO_PRONOSTICOS = "pronosticos.dat";
 
 
     /**
@@ -358,6 +357,9 @@ public class ManejoArchivos {
         }
         return resultados;
     }
+    private static String obtenerNombreArchivoPronosticos(String idParticipante, Fase fase) {
+        return "pronostico_" + idParticipante + "_" + fase.name().toLowerCase() + ".dat";
+    }
     /**
      * Guarda la lista de pronósticos registrados en el archivo
      * pronosticos.dat del almacenamiento interno
@@ -366,8 +368,9 @@ public class ManejoArchivos {
      * @param pronosticos lista de pronósticos
      * @param context contexto de la aplicación
      */
-    public static void guardarPronosticos(ArrayList<Pronostico> pronosticos, Context context){
-        try(ObjectOutputStream salida = new ObjectOutputStream(context.openFileOutput(ARCHIVO_PRONOSTICOS, Context.MODE_PRIVATE))){
+    public static void guardarPronosticos(ArrayList<Pronostico> pronosticos, String idParticipante, Fase fase, Context context){
+        String nombreArchivo = obtenerNombreArchivoPronosticos(idParticipante, fase);
+        try(ObjectOutputStream salida = new ObjectOutputStream(context.openFileOutput(nombreArchivo, Context.MODE_PRIVATE))){
             salida.writeObject(pronosticos);
         }catch (IOException e){
             e.printStackTrace();
@@ -380,9 +383,10 @@ public class ManejoArchivos {
      * @param context contexto de la aplicación
      * @return lista de pronósticos almacenados
      */
-    public static ArrayList<Pronostico> leerPronosticos(Context context){
+    public static ArrayList<Pronostico> leerPronosticos(String idParticipante, Fase fase, Context context){
         ArrayList<Pronostico> pronosticos = new ArrayList<>();
-        try(ObjectInputStream entrada = new ObjectInputStream(context.openFileInput(ARCHIVO_PRONOSTICOS))){
+        String nombreArchivo = obtenerNombreArchivoPronosticos(idParticipante, fase);
+        try(ObjectInputStream entrada = new ObjectInputStream(context.openFileInput(nombreArchivo))){
             pronosticos = (ArrayList<Pronostico>) entrada.readObject();
         }catch (FileNotFoundException e){
             //El archivo no existe, se retorna lista vacía
@@ -393,8 +397,48 @@ public class ManejoArchivos {
         }
         return pronosticos;
     }
-    public static void registrarPronostico(Pronostico pronostico, Context context){
-        ArrayList<Pronostico>pronosticos = leerPronosticos(context);
+    public static ArrayList<Pronostico> leerPronosticosParticipante(String idParticipante, Context context) {
+        ArrayList<Pronostico> todos = new ArrayList<>();
+        ArrayList<Fase> fases = new ArrayList<>();
+        fases.add(Fase.FASE_DE_GRUPOS);
+        fases.add(Fase.DIECISEISAVOS_DE_FINAL);
+        fases.add(Fase.OCTAVOS_DE_FINAL);
+        fases.add(Fase.CUARTOS_DE_FINAL);
+        fases.add(Fase.SEMIFINALES);
+        fases.add(Fase.TERCER_LUGAR);
+        fases.add(Fase.FINAL);
+
+        for (Fase fase : fases) {
+            ArrayList<Pronostico> pronosticosFase = leerPronosticos(idParticipante, fase, context);
+            for (Pronostico pronostico : pronosticosFase) {
+                todos.add(pronostico);
+            }
+        }
+
+        return todos;
+    }
+    public static ArrayList<Pronostico> leerTodosPronosticos(Context context) {
+        ArrayList<Pronostico> todos = new ArrayList<>();
+        ArrayList<Usuario> usuarios = leerUsuarios(context);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Participante) {
+                ArrayList<Pronostico> pronosticosParticipante = leerPronosticosParticipante(usuario.getIdUsuario(), context);
+                for (Pronostico pronostico : pronosticosParticipante) {
+                    todos.add(pronostico);
+                }
+            }
+        }
+
+        return todos;
+    }
+
+    /**
+     *
+     * @param pronostico
+     * @param context
+     */
+    public static void registrarPronostico(Pronostico pronostico, Fase fase, Context context){
+        ArrayList<Pronostico>pronosticos = leerPronosticos(pronostico.getIdParticipante(), fase, context);
         boolean encontrado = false;
         for(int i=0; i<pronosticos.size(); i++){
             Pronostico pronosticoGuardado = pronosticos.get(i);
@@ -406,7 +450,7 @@ public class ManejoArchivos {
         if(!encontrado){
             pronosticos.add(pronostico);
         }
-        guardarPronosticos(pronosticos, context);
+        guardarPronosticos(pronosticos, pronostico.getIdParticipante(), fase, context);
     }
 }
 
