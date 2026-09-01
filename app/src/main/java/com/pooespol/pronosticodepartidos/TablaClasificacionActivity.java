@@ -78,28 +78,35 @@ public class TablaClasificacionActivity extends AppCompatActivity {
 
         //Aqui se configura los items del menú
         navigationView.setNavigationItemSelectedListener(item -> {
-            //Listener para cerrar sesion
-            if (item.getItemId() == R.id.navCerrarSesion) {
+       // Ya estamos en TablaClasificacionActivity
+        if (item.getItemId() == R.id.navClasificacion) {
+            drawerLayout.closeDrawers();
+            return true;
+        }
+        // Ir a PronosticosActivity
+        if (item.getItemId() == R.id.navPronostico) {
+            Intent intent = new Intent(TablaClasificacionActivity.this,PronosticosActivity.class
+        );
 
-                Intent intent = new Intent(
-                        TablaClasificacionActivity.this,
-                        MainActivity.class
-                );
+        intent.putExtra("actual", actual);
+        intent.putExtra("usuarios", usuarios);
 
-                // Elimina las Activities anteriores
-                // para que no pueda regresar con el botón atrás.
-                intent.setFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                );
+        startActivity(intent);
+        return true;
+    }
+      // Cerrar sesión
+        if (item.getItemId() == R.id.navCerrarSesion) {
+            Intent intent = new Intent(TablaClasificacionActivity.this, MainActivity.class
+        );
 
-                startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+            startActivity(intent);
+            return true;
+    }
 
-                return true;
-            }
-
-            return false;
-        });
+    return false;
+});
         //Termina la activity actual y regresa al menu principal
         btnVolver.setOnClickListener(v->{
             finish();
