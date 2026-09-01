@@ -22,7 +22,6 @@ import java.io.OutputStreamWriter;
  * Los archivos que pueden modificarse durante la ejecución se copian
  * inicialmente desde assets al almacenamiento interno de la aplicación.
  * @author andreaverdezotolung
- * @author nahomi
  */
 
 public class ManejoArchivos {
@@ -250,6 +249,27 @@ public class ManejoArchivos {
             bw.newLine();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Guarda la información actualizada de todos los partidos
+     * en el archivo partidos.txt del almacenamiento interno.
+     * El contenido anterior del archivo se reemplaza por los datos
+     * actuales de los partidos recibidos
+     * @param partidos lista de partidos por guardar
+     * @param context contexto de la aplicación
+     */
+    public static void guardarPartidos(ArrayList<Partido>partidos, Context context){
+        try(BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS, Context.MODE_PRIVATE)))){
+            bf.write("idPartido;fase;fecha;horaUTC;estadio;seleccion1;seleccion2;estado");
+            bf.newLine();
+            for (Partido p: partidos){
+                bf.write(p.getIdPartido() + ";" + p.getFaseTorneo() + ";" + p.getFecha() + ";" + p.getHora() + ";" + p.getEstadio() + ";" + p.getSeleccion1() + ";" + p.getSeleccion2() + ";" + p.getEstadoPartido());
+                bf.newLine();
+            }
+        }catch (IOException e){
             e.printStackTrace();
         }
     }

@@ -17,16 +17,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.pooespol.pronosticodepartidos.modelo.DatosIncompletosException;
 import com.pooespol.pronosticodepartidos.modelo.EstadoPartido;
 import com.pooespol.pronosticodepartidos.modelo.Fase;
 import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
+import com.pooespol.pronosticodepartidos.modelo.Pronostico;
+import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
 
 import java.util.ArrayList;
 
@@ -204,7 +208,24 @@ public class PronosticosActivity extends AppCompatActivity {
             EditText gol2 = vistaPartido.findViewById(R.id.editTextGol2);
 
             Button buttonGuardar = vistaPartido.findViewById(R.id.buttonGuardar);
-            //Pendiente el listener de este boton
+            buttonGuardar.setOnClickListener(view -> {
+                try{
+                    String goles1Texto = gol1.getText().toString().trim();
+                    String goles2Texto = gol2.getText().toString().trim();
+                    if(goles1Texto.isEmpty()&& goles2Texto.isEmpty()){
+                        throw new DatosIncompletosException("Debe ingresar los goles de ambas selecciones");
+                    }
+                    int goles1= Integer.parseInt(goles1Texto);
+                    int goles2= Integer.parseInt(goles2Texto);
+                    Pronostico pronostico = actual.registrarPronostico(partido, goles1, goles2);
+                    ManejoArchivos.registrarPronostico(pronostico, this);
+                    Toast.makeText(this, "Pronóstico guardado exitosamente", Toast.LENGTH_SHORT).show();
+                }catch (DatosIncompletosException e){
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }catch (PronosticoFueraDeTiempoException p){
+                    Toast.makeText(this, p.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
             // Asignar información del objeto
             tvFecha.setText(partido.getFecha());
