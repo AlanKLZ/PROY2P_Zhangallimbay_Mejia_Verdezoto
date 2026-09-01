@@ -1,24 +1,27 @@
 package com.pooespol.pronosticodepartidos.modelo;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.io.OutputStreamWriter;
 
 /**
- * Clase encargada de manejar la lectura de archivos relacionados
- * con los usuarios de la aplicación
- *
+ * Clase encargada de manejar la lectura de archivos utilizados por la aplicación.
+ * Permite leer y almacenar la información de usuarios, participantes, administradores, partidos y resultados.
+ * Los archivos que pueden modificarse durante la ejecución se copian
+ * inicialmente desde assets al almacenamiento interno de la aplicación.
+ * @author andreaverdezotolung
  */
 
 public class ManejoArchivos {
@@ -31,10 +34,11 @@ public class ManejoArchivos {
 
 
     /**
-     * Busca el cargo asociado a un administrador.
-     *
-     * @param idUsuarioBuscado identificador del administrador
-     * @return cargo encontrado o null
+     * Busca el cargo asociado a un administrador a partir de su id.
+     * La información se obtiene del archivo administradores.txt
+     * @param idUsuarioBuscado id del administrador que se desea buscar
+     * @param context contexto de la aplicación necesario para acceder a assets
+     * @return cargo del administrador si se encuentra, caso contrario null.
      */
  
     private static String buscarCargoAdministrador(String idUsuarioBuscado, Context context ) {
@@ -59,12 +63,13 @@ public class ManejoArchivos {
     }
 
     /**
- * Busca el puntaje acumulado de un participante a partir de su id de usuario.
- * La información se obtiene de la copia interna de participantes.txt.
- *
- * @param idUsuarioBuscado id del participante cuyo puntaje se desea obtener
- * @return puntaje acumulado del participante si se encuentra, caso contrario -1
- */
+     * Busca el puntaje acumulado de un participante a partir de su identificador.
+     * La información se obtiene de la copia interna de participantes.txt.
+     *
+     * @param idUsuarioBuscado identificador del participante cuyo puntaje se desea obtener
+     * @param context contexto de la aplicación necesario para acceder al almacenamiento interno
+     * @return puntaje acumulado del participante si se encuentra; caso contrario, -1
+     */
     private static int buscarPuntaje(String idUsuarioBuscado, Context context ) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_PARTICIPANTES)))) {
             String linea;
@@ -85,41 +90,47 @@ public class ManejoArchivos {
     }
 
     /**
- * Inicializa un archivo en el almacenamiento interno de la aplicación.
- * Si el archivo todavía no existe, copia su contenido inicial desde assets.
- * Si ya existe, conserva la información almacenada previamente.
- *
- * @param nombreArchivo nombre del archivo que se desea inicializar
- */
-    public static void inicializarArchivo(String nombreArchivo, Context context) {
-        File archivo = new File(context.getFilesDir(), nombreArchivo);
+     * Inicializa un archivo en el almacenamiento interno de la aplicación.
+     *
+     * Si el archivo todavía no existe, copia su contenido inicial desde assets.
+     * Si ya existe en el almacenamiento interno, conserva la información
+     * almacenada previamente.
+     *
+     * @param nombreArchivo nombre del archivo que se desea inicializar
+     * @param context contexto de la aplicación necesario para acceder a assets
+     * y al almacenamiento interno
+     */
+   private static void inicializarArchivo(String nombreArchivo, Context context) {
+    File archivo = new File(context.getFilesDir(), nombreArchivo);
 
-        if (!archivo.exists()) {
-            try (InputStream entrada = context.getAssets().open(nombreArchivo);
-                OutputStream salida = context.openFileOutput(nombreArchivo,Context.MODE_PRIVATE)) {
-                byte[] buffer = new byte[1024];
-                int cantidadBytes;
+    if (!archivo.exists()) {
+        try (InputStream entrada = context.getAssets().open(nombreArchivo);
+             OutputStream salida = context.openFileOutput(nombreArchivo,Context.MODE_PRIVATE)) {
+            byte[] buffer = new byte[1024];
+            int cantidadBytes;
 
-                while ((cantidadBytes = entrada.read(buffer)) != -1) {
-                    salida.write(buffer, 0, cantidadBytes);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((cantidadBytes = entrada.read(buffer)) != -1) {
+                salida.write(buffer, 0, cantidadBytes);
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+}
 
     /**
- * Lee los usuarios almacenados en usuarios.txt y crea los objetos
- * Participante o Administrador según el tipo de usuario indicado.
- * Para los participantes recupera sus puntajes de participantes.txt.
- * Para los administradores recupera sus cargos de administradores.txt.
- *
- * @return lista de usuarios cargados desde los archivos
- */
-
+     * Lee los usuarios almacenados en usuarios.txt y crea los objetos
+     * Participante o Administrador según el tipo de usuario registrado.
+     *
+     * Para los participantes recupera el puntaje acumulado desde participantes.txt.
+     * Para los administradores recupera el cargo desde administradores.txt.
+     *
+     * @param context contexto de la aplicación necesario para acceder a los archivos
+     * @return lista de usuarios cargados desde los archivos
+     */
     public static ArrayList<Usuario> leerUsuarios(Context context) {
+        inicializarArchivo(ARCHIVO_PARTICIPANTES, context);
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try ( BufferedReader br =new BufferedReader(new InputStreamReader(context.getAssets().open(ARCHIVO_USUARIOS)) )
         ) {
@@ -161,26 +172,49 @@ public class ManejoArchivos {
     }
 
     /**
-     * Lee los partidos almacenados en partidos.txt.
+     * Guarda los puntajes acumulados de todos los participantes
+     * en el archivo participantes.txt del almacenamiento interno
+     * El contenido anterior del archivo es reemplazado por los
+     * puntajes actualizados recibidos en la lista.
+     * @param participantes lista de participantes cuyos puntajes
+     *                      se desean guardar
+     * @param context contexto de la aplicación necesario para
+     *                acceder al almacenamiento interno
+     */
+    public static void guardarParticipantes(ArrayList<Participante>participantes, Context context){
+        try(BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTICIPANTES, Context.MODE_PRIVATE)))){
+            bf.write("idUsuario;puntaje");
+            bf.newLine();
+            for(Participante participante : participantes){
+                bf.write(participante.getIdUsuario() + ";"+ participante.getPuntajeAcumulado());
+                bf.newLine();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Lee los partidos almacenados en la copia interna de partidos.txt
+     * y crea los objetos Partido correspondientes.
      *
-     * @return lista de partidos
+     * @param context contexto de la aplicación necesario para acceder
+     * al almacenamiento interno
+     * @return lista de partidos cargados desde el archivo
      */
     public static ArrayList<Partido> leerPartidos(Context context) {
+        inicializarArchivo(ARCHIVO_PARTIDOS, context);
         ArrayList<Partido> partidos = new ArrayList<>();
-        File archivo = new File(context.getFilesDir(),ARCHIVO_PARTIDOS);
-        if (!archivo.exists()) {
-            inicializarArchivo(ARCHIVO_PARTIDOS, context);
-        }
         try (BufferedReader br =new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_PARTIDOS )) )
         ) {
             String linea;
             br.readLine();
-            Log.e("LEER_PARTIDOS", "Ya abrió el archivo");
+
             while ((linea = br.readLine()) != null) {
-                Log.e("LEER_PARTIDOS", "Linea: " + linea);
                 String[] datos = linea.split(";");
                 String idPartido = datos[0];
-                Fase fase = Fase.valueOf(datos[1].trim());
+                Fase fase = Fase.valueOf(datos[1]);
                 String fecha = datos[2];
                 String hora = datos[3];
                 String estadio = datos[4];
@@ -194,66 +228,24 @@ public class ManejoArchivos {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception exception){
-            System.out.println(exception.getMessage());
         }
 
         return partidos;
     }
 
-
-     /**
-     * Registra un partido al final de partidos.txt.
+    /**
+     * Registra un nuevo partido al final del archivo partidos.txt
+     * almacenado internamente por la aplicación.
      *
      * @param partido partido que se desea registrar
+     * @param context contexto de la aplicación necesario para acceder
+     * al almacenamiento interno
      */
     public static void registrarPartido(Partido partido, Context context ) {
-        File archivo = new File(context.getFilesDir(), ARCHIVO_PARTIDOS);
-        ArrayList<String> lineas = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(archivo)))) {
-
-            String linea;
-            while ((linea = br.readLine()) != null) {
-
-                String[] datos = linea.split(";");
-                if (datos[0].equals("idPartido")) {
-                    lineas.add(linea);
-                    continue;
-                }
-
-                // Partido que se quiere actualizar
-                if (datos[0].equals(partido.getIdPartido())) {
-
-                    lineas.add(
-                            partido.getIdPartido() + ";" +
-                                    partido.getFaseTorneo() + ";" +
-                                    partido.getFecha() + ";" +
-                                    partido.getHora() + ";" +
-                                    partido.getEstadio() + ";" +
-                                    partido.getSeleccion1() + ";" +
-                                    partido.getSeleccion2() + ";" +
-                                    partido.getEstadoPartido()
-                    );
-
-                } else {
-                    lineas.add(linea);
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS, Context.MODE_PRIVATE)))) {
-
-            for (int i = 0; i < lineas.size(); i++) {
-                bw.write(lineas.get(i));
-                if (i < lineas.size() - 1) {
-                    bw.newLine();
-                }
-            }
+        inicializarArchivo(ARCHIVO_PARTIDOS, context);
+        try (BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS,Context.MODE_APPEND )))) {
+            bw.write(partido.getIdPartido() + ";" + partido.getFaseTorneo() + ";" + partido.getFecha() + ";" + partido.getHora() + ";" + partido.getEstadio() + ";" + partido.getSeleccion1() + ";" + partido.getSeleccion2() + ";" + partido.getEstadoPartido());
+            bw.newLine();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -261,18 +253,41 @@ public class ManejoArchivos {
     }
 
     /**
-     * Registra un resultado en resultados.txt.
+     * Guarda la información actualizada de todos los partidos
+     * en el archivo partidos.txt del almacenamiento interno.
+     * El contenido anterior del archivo se reemplaza por los datos
+     * actuales de los partidos recibidos
+     * @param partidos lista de partidos por guardar
+     * @param context contexto de la aplicación
+     */
+    public static void guardarPartidos(ArrayList<Partido>partidos, Context context){
+        try(BufferedWriter bf = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS, Context.MODE_PRIVATE)))){
+            bf.write("idPartido;fase;fecha;horaUTC;estadio;seleccion1;seleccion2;estado");
+            bf.newLine();
+            for (Partido p: partidos){
+                bf.write(p.getIdPartido() + ";" + p.getFaseTorneo() + ";" + p.getFecha() + ";" + p.getHora() + ";" + p.getEstadio() + ";" + p.getSeleccion1() + ";" + p.getSeleccion2() + ";" + p.getEstadoPartido());
+                bf.newLine();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Registra un nuevo resultado oficial al final del archivo resultados.txt
+     * almacenado internamente por la aplicación.
      *
      * @param resultado resultado que se desea registrar
+     * @param context contexto de la aplicación necesario para acceder
+     * al almacenamiento interno
      */
     public static void registrarResultado(Resultado resultado, Context context ) {
-
+        inicializarArchivo(ARCHIVO_RESULTADOS, context);
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_RESULTADOS,Context.MODE_APPEND)))
         ) {
-
+            bw.write(resultado.getIdResultado() + ";" + resultado.getIdPartido() + ";" + resultado.getGolesSeleccion1() + ";" + resultado.getGolesSeleccion2());
             bw.newLine();
-            bw.write(resultado.getIdResultado() + ";" + resultado.getIdPartido() + ";" + resultado.getGolesSeleccion1() + ";" + resultado.getGolesSeleccion2()
-            );
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -280,13 +295,16 @@ public class ManejoArchivos {
     }
 
     /**
-     * Obtiene el resultado correspondiente a un partido.
+     * Busca y recupera el resultado oficial asociado a un partido.
+     * La búsqueda se realiza en la copia interna de resultados.txt.
      *
-     * @param idPartido identificador del partido
-     * @return resultado encontrado o null si no existe
+     * @param idPartido identificador del partido cuyo resultado se desea obtener
+     * @param context contexto de la aplicación necesario para acceder
+     *                al almacenamiento interno
+     * @return resultado correspondiente al partido si existe; caso contrario, null
      */
     public static Resultado obtenerResultado(String idPartido, Context context) {
-
+        inicializarArchivo(ARCHIVO_RESULTADOS, context);
         try (BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_RESULTADOS)))) {
             String linea;
             br.readLine();
@@ -309,6 +327,153 @@ public class ManejoArchivos {
         }
 
         return null;
+    }
+
+    /**
+     * Lee los resultados oficiales almacenados
+     * en la copia interna del archivo resultados.txt
+     * y crea los objetos correspondientes
+     * @param context contexto de la aplicación necesario
+     *                para acceder al almacenamiento interno
+     * @return lista de resultados
+     */
+    public static ArrayList<Resultado> leerResultados(Context context){
+        inicializarArchivo(ARCHIVO_RESULTADOS, context);
+        ArrayList<Resultado>resultados = new ArrayList<>();
+        try(BufferedReader bf = new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_RESULTADOS)))){
+            String linea;
+            bf.readLine();
+            while((linea = bf.readLine())!= null){
+                String[]datos = linea.split(";");
+                String idResultado = datos[0];
+                String idPartido = datos[1];
+                int golesSeleccion1 = Integer.parseInt(datos[2]);
+                int golesSeleccion2 = Integer.parseInt(datos[3]);
+                Resultado resultado = Resultado.desdeArchivo(idResultado, idPartido, golesSeleccion1, golesSeleccion2);
+                resultados.add(resultado);
+            }
+        }catch (IOException i){
+            i.printStackTrace();
+        }
+        return resultados;
+    }
+    private static String obtenerNombreArchivoPronosticos(String idParticipante, Fase fase) {
+        return "pronostico_" + idParticipante + "_" + fase.name().toLowerCase() + ".dat";
+    }
+    /**
+     * Guarda la lista de pronósticos registrados en el archivo
+     * pronosticos.dat del almacenamiento interno
+     * Los objetos Pronostico son almacenados mediante serialización
+     * y el contenido anterior del archivo es reemplazado por la lista recibida
+     * @param pronosticos lista de pronósticos
+     * @param context contexto de la aplicación
+     */
+    public static void guardarPronosticos(ArrayList<Pronostico> pronosticos, String idParticipante, Fase fase, Context context){
+        String nombreArchivo = obtenerNombreArchivoPronosticos(idParticipante, fase);
+        try(ObjectOutputStream salida = new ObjectOutputStream(context.openFileOutput(nombreArchivo, Context.MODE_PRIVATE))){
+            salida.writeObject(pronosticos);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Lee la lista de pronósticos del almacenamiento interno.
+     * Si el archivo todavía no existe, retorna lista vacía
+     * @param context contexto de la aplicación
+     * @return lista de pronósticos almacenados
+     */
+    public static ArrayList<Pronostico> leerPronosticos(String idParticipante, Fase fase, Context context){
+        ArrayList<Pronostico> pronosticos = new ArrayList<>();
+        String nombreArchivo = obtenerNombreArchivoPronosticos(idParticipante, fase);
+        try(ObjectInputStream entrada = new ObjectInputStream(context.openFileInput(nombreArchivo))){
+            pronosticos = (ArrayList<Pronostico>) entrada.readObject();
+        }catch (FileNotFoundException e){
+            //El archivo no existe, se retorna lista vacía
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return pronosticos;
+    }
+
+    /**
+     * Lee todos los pronósticos registrados por un participante
+     * en las diferentes fases del torneo.
+     * Para cada fase se recuperan los pronósticos almacenados
+     * en el archivo correspondiente al participante
+     * @param idParticipante identificador del participante
+     * @param context contexto de la aplicación
+     * @return lista con todos los pronósticos registrados por el participante
+     */
+    public static ArrayList<Pronostico> leerPronosticosParticipante(String idParticipante, Context context) {
+        ArrayList<Pronostico> todos = new ArrayList<>();
+        ArrayList<Fase> fases = new ArrayList<>();
+        fases.add(Fase.FASE_DE_GRUPOS);
+        fases.add(Fase.DIECISEISAVOS_DE_FINAL);
+        fases.add(Fase.OCTAVOS_DE_FINAL);
+        fases.add(Fase.CUARTOS_DE_FINAL);
+        fases.add(Fase.SEMIFINALES);
+        fases.add(Fase.TERCER_LUGAR);
+        fases.add(Fase.FINAL);
+
+        for (Fase fase : fases) {
+            ArrayList<Pronostico> pronosticosFase = leerPronosticos(idParticipante, fase, context);
+            for (Pronostico pronostico : pronosticosFase) {
+                todos.add(pronostico);
+            }
+        }
+
+        return todos;
+    }
+
+    /**
+     * Lee todos los pronósticos registrados por los participantes
+     * de la aplicación
+     * Obtiene los usuarios registrados, identifica a los participantes
+     * y reúne los pronósticos almacenados para cada úno de ellos.
+     * @param context contexto de la aplicación
+     * @return lista con todos los pronóticos registrados
+     */
+    public static ArrayList<Pronostico> leerTodosPronosticos(Context context) {
+        ArrayList<Pronostico> todos = new ArrayList<>();
+        ArrayList<Usuario> usuarios = leerUsuarios(context);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Participante) {
+                ArrayList<Pronostico> pronosticosParticipante = leerPronosticosParticipante(usuario.getIdUsuario(), context);
+                for (Pronostico pronostico : pronosticosParticipante) {
+                    todos.add(pronostico);
+                }
+            }
+        }
+
+        return todos;
+    }
+
+    /**
+     *Registra un pronóstico en el archivo correspondiente
+     * al participante y a la fase del torneo.
+     * Si ya existe un pronóstico con el mismo identificador, reemplaza el pronóstico anterior.
+     * Si no existe, agrega el nuevo pronóstico a la lista.
+     * @param pronostico pronóstico que se desea registrar
+     * @param fase fase del torneo a la que pertenece el pronóstico
+     * @param context contexto de la aplicación
+     */
+    public static void registrarPronostico(Pronostico pronostico, Fase fase, Context context){
+        ArrayList<Pronostico>pronosticos = leerPronosticos(pronostico.getIdParticipante(), fase, context);
+        boolean encontrado = false;
+        for(int i=0; i<pronosticos.size(); i++){
+            Pronostico pronosticoGuardado = pronosticos.get(i);
+            if (pronosticoGuardado.getIdPronostico().equals(pronostico.getIdPronostico())){
+                pronosticos.set(i, pronostico);
+                encontrado= true;
+            }
+        }
+        if(!encontrado){
+            pronosticos.add(pronostico);
+        }
+        guardarPronosticos(pronosticos, pronostico.getIdParticipante(), fase, context);
     }
 }
 

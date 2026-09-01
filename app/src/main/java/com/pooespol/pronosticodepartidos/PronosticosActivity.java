@@ -2,7 +2,6 @@ package com.pooespol.pronosticodepartidos;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -29,8 +29,8 @@ import com.pooespol.pronosticodepartidos.modelo.Fase;
 import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
+import com.pooespol.pronosticodepartidos.modelo.Pronostico;
 import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
-import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
 import java.util.ArrayList;
 
@@ -45,13 +45,11 @@ public class PronosticosActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ArrayList<Partido> partidos = new ArrayList<>();
     private Participante actual;
-    private ArrayList<Usuario> usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("PRONOSTICOS", "ENTRO A ONCREATE");
-        EdgeToEdge.enable(this);
+        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pronosticos);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -63,10 +61,8 @@ public class PronosticosActivity extends AppCompatActivity {
         btVolver = findViewById(R.id.btVolver);
         partidos = ManejoArchivos.leerPartidos(this);
 
-        Log.e("PRONOSTICOS", "Partidos leidos: " + partidos.size());
         scrollViewPartidos = findViewById(R.id.scrollViewPartidos);
         actual = (Participante)getIntent().getSerializableExtra("actual");
-        usuarios = (ArrayList<Usuario>) getIntent().getSerializableExtra("usuarios");
 
         //Listener para el spinner
         spFase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -128,7 +124,7 @@ public class PronosticosActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //llPartidos.removeAllViews();
+                llPartidos.removeAllViews();
             }
         });
         // Configuracion del menu lateral
@@ -155,60 +151,29 @@ public class PronosticosActivity extends AppCompatActivity {
 
 
         // Configuracion de los items del menu
-    navigationView.setNavigationItemSelectedListener(item -> {
+        navigationView.setNavigationItemSelectedListener(item -> {
 
-    // Ir a la tabla de clasificación
-    if (item.getItemId() == R.id.navClasificacion) {
+            if (item.getItemId() == R.id.navCerrarSesion) {
 
-        Intent intent = new Intent( PronosticosActivity.this,TablaClasificacionActivity.class
-        );
+                Intent intent = new Intent(
+                        PronosticosActivity.this,
+                        MainActivity.class
+                );
 
-        intent.putExtra("actual", actual);
-        intent.putExtra("usuarios", usuarios);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK
+                );
 
-        startActivity(intent);
-        return true;
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+
+        btVolver.setOnClickListener(v -> { finish();
+        });
     }
-
-    // Ya estamos en PronosticosActivity
-    if (item.getItemId() == R.id.navPronostico) {
-        drawerLayout.closeDrawers();
-        return true;
-    }
-
-    // Ir a Mis Pronósticos
-    // Pendiente: agregar navegación cuando se cree la Activity de Mis Pronósticos
-    /*
-    if (item.getItemId() == R.id.navPerfil) {
-        // Aquí se abrirá la Activity de Mis Pronósticos
-        return true;
-    }
-*/
-
-    // Cerrar sesión
-    if (item.getItemId() == R.id.navCerrarSesion) {
-
-        Intent intent = new Intent(
-                PronosticosActivity.this,
-                MainActivity.class
-        );
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK
-        );
-
-        startActivity(intent);
-        return true;
-    }
-
-    return false;
-});
-
-btVolver.setOnClickListener(v -> {
-    finish();
-});
-
-    }
-          
     public void mostrarPartidos(ArrayList<Partido>partidos){
         for (Partido partido : partidos) {
 
@@ -243,28 +208,22 @@ btVolver.setOnClickListener(v -> {
             EditText gol2 = vistaPartido.findViewById(R.id.editTextGol2);
 
             Button buttonGuardar = vistaPartido.findViewById(R.id.buttonGuardar);
-            //Pendiente el listener de este boton
-            buttonGuardar.setOnClickListener(v -> {
-                try {
-                    if (partido.getEstadoPartido() == EstadoPartido.CERRADO ||
-                            partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
-                        throw new PronosticoFueraDeTiempoException(
-                                "El tiempo para realizar el pronóstico ha terminado."
-                        );
+            buttonGuardar.setOnClickListener(view -> {
+                try{
+                    String goles1Texto = gol1.getText().toString().trim();
+                    String goles2Texto = gol2.getText().toString().trim();
+                    if(goles1Texto.isEmpty()&& goles2Texto.isEmpty()){
+                        throw new DatosIncompletosException("Debe ingresar los goles de ambas selecciones");
                     }
-                    String goles1 = gol1.getText().toString().trim();
-                    String goles2 = gol2.getText().toString().trim();
-
-                    if (goles1.isEmpty() || goles2.isEmpty()) {
-                        throw new DatosIncompletosException(
-                                "Debe ingresar el resultado de ambos equipos."
-                        );
-                    }
-
-                    //registrarPronostico(); actual.getId()
-
-                } catch (PronosticoFueraDeTiempoException | DatosIncompletosException e) {
+                    int goles1= Integer.parseInt(goles1Texto);
+                    int goles2= Integer.parseInt(goles2Texto);
+                    Pronostico pronostico = actual.registrarPronostico(partido, goles1, goles2);
+                    ManejoArchivos.registrarPronostico(pronostico, partido.getFaseTorneo(), this);
+                    Toast.makeText(this, "Pronóstico guardado exitosamente", Toast.LENGTH_SHORT).show();
+                }catch (DatosIncompletosException e){
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }catch (PronosticoFueraDeTiempoException p){
+                    Toast.makeText(this, p.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
