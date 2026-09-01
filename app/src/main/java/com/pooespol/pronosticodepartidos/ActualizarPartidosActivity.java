@@ -199,6 +199,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
 
                 btnAccion.setOnClickListener(v -> {
                     partido.setEstadoPartido(EstadoPartido.CERRADO);
+                    ManejoArchivos.registrarPartido(partido, this);
                     configurarEstadoPartido(vistaPartido, partido);
                 });
 
@@ -253,6 +254,8 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                         ManejoArchivos.registrarResultado(resultado, this);
 
                         partido.setEstadoPartido(EstadoPartido.FINALIZADO);
+                        ManejoArchivos.registrarPartido(partido, this);
+
                         configurarEstadoPartido(vistaPartido, partido);
 
                     } catch (DatosIncompletosException | PronosticoFueraDeTiempoException e) {

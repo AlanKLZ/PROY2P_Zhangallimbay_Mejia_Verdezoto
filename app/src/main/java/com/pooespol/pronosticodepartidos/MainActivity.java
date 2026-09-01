@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         campoContraseña = findViewById(R.id.EditTextContraseña);
         btnIniciarSesion = findViewById(R.id.btnInicioSesion);
         btnIniciarSesion.setOnClickListener(v-> iniciarSesion());
-
+        ManejoArchivos.inicializarArchivo("partidos.txt",this);
         usuarios = ManejoArchivos.leerUsuarios(this);
     }
 

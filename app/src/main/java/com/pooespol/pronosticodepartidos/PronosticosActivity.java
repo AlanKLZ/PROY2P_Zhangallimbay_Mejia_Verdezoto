@@ -2,6 +2,7 @@ package com.pooespol.pronosticodepartidos;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -45,7 +46,8 @@ public class PronosticosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
+        Log.e("PRONOSTICOS", "ENTRO A ONCREATE");
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pronosticos);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -57,6 +59,7 @@ public class PronosticosActivity extends AppCompatActivity {
         btVolver = findViewById(R.id.btVolver);
         partidos = ManejoArchivos.leerPartidos(this);
 
+        Log.e("PRONOSTICOS", "Partidos leidos: " + partidos.size());
         scrollViewPartidos = findViewById(R.id.scrollViewPartidos);
         actual = (Participante)getIntent().getSerializableExtra("actual");
 
@@ -120,7 +123,7 @@ public class PronosticosActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                llPartidos.removeAllViews();
+                //llPartidos.removeAllViews();
             }
         });
         // Configuracion del menu lateral

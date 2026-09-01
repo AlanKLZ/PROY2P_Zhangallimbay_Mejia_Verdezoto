@@ -1,10 +1,13 @@
 package com.pooespol.pronosticodepartidos.modelo;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -88,24 +91,24 @@ public class ManejoArchivos {
  *
  * @param nombreArchivo nombre del archivo que se desea inicializar
  */
-   private void inicializarArchivo(String nombreArchivo, Context context) {
-    File archivo = new File(context.getFilesDir(), nombreArchivo);
+    public static void inicializarArchivo(String nombreArchivo, Context context) {
+        File archivo = new File(context.getFilesDir(), nombreArchivo);
 
-    if (!archivo.exists()) {
-        try (InputStream entrada = context.getAssets().open(nombreArchivo);
-             OutputStream salida = context.openFileOutput(nombreArchivo,Context.MODE_PRIVATE)) {
-            byte[] buffer = new byte[1024];
-            int cantidadBytes;
+        if (!archivo.exists()) {
+            try (InputStream entrada = context.getAssets().open(nombreArchivo);
+                OutputStream salida = context.openFileOutput(nombreArchivo,Context.MODE_PRIVATE)) {
+                byte[] buffer = new byte[1024];
+                int cantidadBytes;
 
-            while ((cantidadBytes = entrada.read(buffer)) != -1) {
-                salida.write(buffer, 0, cantidadBytes);
+                while ((cantidadBytes = entrada.read(buffer)) != -1) {
+                    salida.write(buffer, 0, cantidadBytes);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
-}
 
     /**
  * Lee los usuarios almacenados en usuarios.txt y crea los objetos
@@ -164,15 +167,20 @@ public class ManejoArchivos {
      */
     public static ArrayList<Partido> leerPartidos(Context context) {
         ArrayList<Partido> partidos = new ArrayList<>();
+        File archivo = new File(context.getFilesDir(),ARCHIVO_PARTIDOS);
+        if (!archivo.exists()) {
+            inicializarArchivo(ARCHIVO_PARTIDOS, context);
+        }
         try (BufferedReader br =new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_PARTIDOS )) )
         ) {
             String linea;
             br.readLine();
-
+            Log.e("LEER_PARTIDOS", "Ya abrió el archivo");
             while ((linea = br.readLine()) != null) {
+                Log.e("LEER_PARTIDOS", "Linea: " + linea);
                 String[] datos = linea.split(";");
                 String idPartido = datos[0];
-                Fase fase = Fase.valueOf(datos[1]);
+                Fase fase = Fase.valueOf(datos[1].trim());
                 String fecha = datos[2];
                 String hora = datos[3];
                 String estadio = datos[4];
@@ -186,6 +194,8 @@ public class ManejoArchivos {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
 
         return partidos;
@@ -198,10 +208,52 @@ public class ManejoArchivos {
      * @param partido partido que se desea registrar
      */
     public static void registrarPartido(Partido partido, Context context ) {
-        try (BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS,Context.MODE_APPEND )))) {
-            bw.newLine();
-            bw.write(partido.getIdPartido() + ";" + partido.getFaseTorneo() + ";" + partido.getFecha() + ";" + partido.getHora() + ";" + partido.getEstadio() + ";" + partido.getSeleccion1() + ";" + partido.getSeleccion2() + ";" + partido.getEstadoPartido()
-            );
+        File archivo = new File(context.getFilesDir(), ARCHIVO_PARTIDOS);
+        ArrayList<String> lineas = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(archivo)))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+
+                String[] datos = linea.split(";");
+                if (datos[0].equals("idPartido")) {
+                    lineas.add(linea);
+                    continue;
+                }
+
+                // Partido que se quiere actualizar
+                if (datos[0].equals(partido.getIdPartido())) {
+
+                    lineas.add(
+                            partido.getIdPartido() + ";" +
+                                    partido.getFaseTorneo() + ";" +
+                                    partido.getFecha() + ";" +
+                                    partido.getHora() + ";" +
+                                    partido.getEstadio() + ";" +
+                                    partido.getSeleccion1() + ";" +
+                                    partido.getSeleccion2() + ";" +
+                                    partido.getEstadoPartido()
+                    );
+
+                } else {
+                    lineas.add(linea);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS, Context.MODE_PRIVATE)))) {
+
+            for (int i = 0; i < lineas.size(); i++) {
+                bw.write(lineas.get(i));
+                if (i < lineas.size() - 1) {
+                    bw.newLine();
+                }
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
