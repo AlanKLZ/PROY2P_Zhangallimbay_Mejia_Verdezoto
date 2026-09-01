@@ -41,8 +41,6 @@ public class PronosticosActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ArrayList<Partido> partidos = new ArrayList<>();
     private Participante actual;
-    private ManejoArchivos ManejoArchivos = new ManejoArchivos(this);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class PronosticosActivity extends AppCompatActivity {
         spFase = findViewById(R.id.spFase);
         llPartidos= findViewById(R.id.llPartidos);
         btVolver = findViewById(R.id.btVolver);
-        partidos = ManejoArchivos.leerPartidos();
+        partidos = ManejoArchivos.leerPartidos(this);
 
         scrollViewPartidos = findViewById(R.id.scrollViewPartidos);
         actual = (Participante)getIntent().getSerializableExtra("actual");

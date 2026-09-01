@@ -58,7 +58,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         spFase = findViewById(R.id.spFase);
         llPartidos = findViewById(R.id.llPartidos);
         Button btnVolver = findViewById(R.id.btVolver);
-        partidos = ManejoArchivos.
+        partidos = ManejoArchivos.leerPartidos(this);
 
         //Configuracion del menu
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);

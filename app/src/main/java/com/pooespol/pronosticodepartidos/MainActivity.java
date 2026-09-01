@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         btnIniciarSesion = findViewById(R.id.btnInicioSesion);
         btnIniciarSesion.setOnClickListener(v-> iniciarSesion());
 
-        ManejoArchivos manejoArchivos = new ManejoArchivos(this);
-        usuarios = manejoArchivos.leerUsuarios();
+        usuarios = ManejoArchivos.leerUsuarios(this);
     }
 
     /**
