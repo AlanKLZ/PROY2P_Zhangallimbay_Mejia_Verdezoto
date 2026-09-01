@@ -35,9 +35,9 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
         btnActualizarPartidos = findViewById(R.id.btnActualizarPuntajes);
         btnSalir = findViewById(R.id.btnSalirAdministrador);
         tVnombreAdministrador = findViewById(R.id.tVnombreAdministrador);
-        String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
-        tVnombreAdministrador.setText(nombreCompleto);
         administrador = (Administrador) getIntent().getSerializableExtra("actual");
+        tVnombreAdministrador.setText(administrador.getNombreCompleto());
+
     }
 
     public void actualizarPartidos(View view){
@@ -47,6 +47,11 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
     }
     public void adminstrarPartidos(View view){
 
+    }
+    public void actualizarPuntajes(View v){
+        Intent actualizarPuntajes = new Intent (MenuPrincipalAdministrador.this, ActualizarPuntajesActivity.class);
+        actualizarPuntajes.putExtra("actual", administrador);
+        startActivity(actualizarPuntajes);
     }
     public void salir(View view){
         finish();

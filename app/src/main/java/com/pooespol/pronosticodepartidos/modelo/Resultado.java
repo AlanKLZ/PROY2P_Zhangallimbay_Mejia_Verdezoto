@@ -65,7 +65,11 @@ public class Resultado implements Serializable {
      * @return resultado recuperado del archivo
      */
     public static Resultado desdeArchivo(String idResultado, String idPartido,  int golesSeleccion1,  int golesSeleccion2) {
+        int idNumerico = Integer.parseInt(idResultado);
 
+        if (idNumerico >= contadorResultados) {
+            contadorResultados = idNumerico + 1;
+        }
         return new Resultado(idResultado,idPartido,golesSeleccion1, golesSeleccion2
         );
     }
