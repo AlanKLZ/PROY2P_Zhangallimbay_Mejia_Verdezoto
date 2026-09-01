@@ -219,6 +219,8 @@ public class PronosticosActivity extends AppCompatActivity {
                     int goles2= Integer.parseInt(goles2Texto);
                     Pronostico pronostico = actual.registrarPronostico(partido, goles1, goles2);
                     ManejoArchivos.registrarPronostico(pronostico, this);
+                    ArrayList<Pronostico> prueba =
+                            ManejoArchivos.leerPronosticos(this);
                     Toast.makeText(this, "Pronóstico guardado exitosamente", Toast.LENGTH_SHORT).show();
                 }catch (DatosIncompletosException e){
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

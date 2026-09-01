@@ -402,12 +402,11 @@ public class ManejoArchivos {
                 pronosticos.set(i, pronostico);
                 encontrado= true;
             }
-            if(!encontrado){
-                pronosticos.add(pronostico);
-            }
-            guardarPronosticos(pronosticos, context);
-
         }
+        if(!encontrado){
+            pronosticos.add(pronostico);
+        }
+        guardarPronosticos(pronosticos, context);
     }
 }
 

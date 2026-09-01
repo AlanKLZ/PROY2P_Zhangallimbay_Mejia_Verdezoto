@@ -60,8 +60,6 @@ public class ActualizarPuntajesActivity extends AppCompatActivity {
         resultados = ManejoArchivos.leerResultados(this);
 
         pronosticos = ManejoArchivos.leerPronosticos(this);
-        Toast.makeText(this, "Pronósticos leídos: " + pronosticos.size(), Toast.LENGTH_LONG).show();
-
         buttonAPuntajes.setOnClickListener(view -> {
             administrador.actualizarPuntajes(participantes,pronosticos,partidos,resultados);
             ManejoArchivos.guardarParticipantes(participantes, this);
