@@ -94,6 +94,15 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         startActivity(intent);
         return true;
     }
+
+        // Ir a Mis Pronósticos
+        // Pendiente: agregar navegación cuando se cree la Activity de Mis Pronósticos
+        /*
+        if (item.getItemId() == R.id.navPerfil) {
+        // Aquí se abrirá la Activity de Mis Pronósticos :)
+        return true;
+}
+*/    
       // Cerrar sesión
         if (item.getItemId() == R.id.navCerrarSesion) {
             Intent intent = new Intent(TablaClasificacionActivity.this, MainActivity.class
