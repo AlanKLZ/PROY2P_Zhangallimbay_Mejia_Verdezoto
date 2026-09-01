@@ -210,9 +210,12 @@ public class PronosticosActivity extends AppCompatActivity {
             Button buttonGuardar = vistaPartido.findViewById(R.id.buttonGuardar);
             buttonGuardar.setOnClickListener(view -> {
                 try{
+                    if (partido.getEstadoPartido() == EstadoPartido.CERRADO || partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
+                        throw new PronosticoFueraDeTiempoException("El tiempo para realizar el pronóstico ha terminado.");
+                    }
                     String goles1Texto = gol1.getText().toString().trim();
                     String goles2Texto = gol2.getText().toString().trim();
-                    if(goles1Texto.isEmpty()&& goles2Texto.isEmpty()){
+                    if(goles1Texto.isEmpty() || goles2Texto.isEmpty()){
                         throw new DatosIncompletosException("Debe ingresar los goles de ambas selecciones");
                     }
                     int goles1= Integer.parseInt(goles1Texto);

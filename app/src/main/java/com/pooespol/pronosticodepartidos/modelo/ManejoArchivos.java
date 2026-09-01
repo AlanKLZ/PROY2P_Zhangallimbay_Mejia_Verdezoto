@@ -100,7 +100,7 @@ public class ManejoArchivos {
      * @param context contexto de la aplicación necesario para acceder a assets
      * y al almacenamiento interno
      */
-   private static void inicializarArchivo(String nombreArchivo, Context context) {
+   public static void inicializarArchivo(String nombreArchivo, Context context) {
     File archivo = new File(context.getFilesDir(), nombreArchivo);
 
     if (!archivo.exists()) {
