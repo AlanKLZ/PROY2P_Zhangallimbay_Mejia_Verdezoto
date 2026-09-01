@@ -20,9 +20,21 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#55BD2C"
+            android:background="#E8FFE9"
             android:elevation="4dp"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize" >
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:background="#E8FFE9"
+                android:gravity="center"
+                android:text="@string/pron_sticos"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
@@ -44,24 +56,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="20dp"
-                    android:background="#E8FFE9"
-                    android:gravity="center"
-                    android:text="Pronósticos"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+
 
                 <TextView
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Fase del Torneo"
+                    android:text="@string/fase_del_torneo"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -72,7 +74,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="20dp"
-                    android:entries="@array/fases_torneo" />
+                    android:entries="@array/fases_torneo"
+                    android:minHeight="48dp" />
 
                 <ScrollView
                     android:id="@+id/scrollViewPartidos"
@@ -93,17 +96,24 @@
 
                 </ScrollView>
 
-                <Button
-                    android:id="@+id/btVolver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="8dp"
-                    android:backgroundTint="#F2F2F2"
-                    android:textColor="#333333"
-                    android:textAllCaps="false"
-                    android:text="Volver" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/button_backgroundv2"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btVolver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="#F2F2F2"
+                        android:text="@string/volver"
+                        android:textAllCaps="false"
+                        android:textColor="#333333" />
+                </LinearLayout>
 
             </LinearLayout>
 

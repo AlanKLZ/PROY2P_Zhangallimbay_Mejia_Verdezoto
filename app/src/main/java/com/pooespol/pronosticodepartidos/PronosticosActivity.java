@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.pooespol.pronosticodepartidos.modelo.EstadoPartido;
 import com.pooespol.pronosticodepartidos.modelo.Fase;
+import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
 
@@ -40,6 +41,7 @@ public class PronosticosActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ArrayList<Partido> partidos = new ArrayList<>();
     private Participante actual;
+    private ManejoArchivos ManejoArchivos = new ManejoArchivos(this);
 
 
     @Override
@@ -55,42 +57,8 @@ public class PronosticosActivity extends AppCompatActivity {
         spFase = findViewById(R.id.spFase);
         llPartidos= findViewById(R.id.llPartidos);
         btVolver = findViewById(R.id.btVolver);
-        //pronosticos = ManejoArchivosUsuario
-        //Borrar luego estos objetos
-        partidos.add(new Partido("001",
-                Fase.FASE_DE_GRUPOS,
-                "30/ago",
-                "18:00",
-                "Estadio Barcelona",
-                "Barcelona",
-                "Emelec",
-                EstadoPartido.ABIERTO));
-        partidos.add(new Partido("002",
-                Fase.FASE_DE_GRUPOS,
-                "30/ago",
-                "18:00",
-                "Estadio Barcelona",
-                "Barcelona",
-                "Emelec",
-                EstadoPartido.ABIERTO));
+        partidos = ManejoArchivos.leerPartidos();
 
-        partidos.add(new Partido("003",
-                Fase.OCTAVOS,
-                "05/sep",
-                "20:00",
-                "Estadio Olímpico",
-                "Liga de Quito",
-                "Independiente del Valle",
-                EstadoPartido.CERRADO));
-
-        partidos.add(new Partido("004",
-                Fase.FINAL,
-                "20/sep",
-                "19:30",
-                "Estadio Monumental",
-                "Barcelona",
-                "Liga de Quito",
-                EstadoPartido.FINALIZADO));
         scrollViewPartidos = findViewById(R.id.scrollViewPartidos);
         actual = (Participante)getIntent().getSerializableExtra("actual");
 
@@ -114,15 +82,15 @@ public class PronosticosActivity extends AppCompatActivity {
                         break;
 
                     case 1:
-                        faseSeleccionada = Fase.DIECISEISAVOS;
+                        faseSeleccionada = Fase.DIECISEISAVOS_DE_FINAL;
                         break;
 
                     case 2:
-                        faseSeleccionada = Fase.OCTAVOS;
+                        faseSeleccionada = Fase.OCTAVOS_DE_FINAL;
                         break;
 
                     case 3:
-                        faseSeleccionada = Fase.CUARTOS;
+                        faseSeleccionada = Fase.CUARTOS_DE_FINAL;
                         break;
 
                     case 4:
@@ -238,7 +206,7 @@ public class PronosticosActivity extends AppCompatActivity {
             EditText gol2 = vistaPartido.findViewById(R.id.editTextGol2);
 
             Button buttonGuardar = vistaPartido.findViewById(R.id.buttonGuardar);
-
+            //Pendiente el listener de este boton
 
             // Asignar información del objeto
             tvFecha.setText(partido.getFecha());

@@ -1,5 +1,6 @@
 package com.pooespol.pronosticodepartidos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.pooespol.pronosticodepartidos.modelo.Administrador;
 
 public class MenuPrincipalAdministrador extends AppCompatActivity {
     private TextView tVnombreAdministrador;
     private Button btnAdminstrarPartidos;
     private Button btnActualizarPartidos;
     private Button btnSalir;
+    private Administrador administrador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,13 @@ public class MenuPrincipalAdministrador extends AppCompatActivity {
         tVnombreAdministrador = findViewById(R.id.tVnombreAdministrador);
         String nombreCompleto = getIntent().getStringExtra("nombreCompleto");
         tVnombreAdministrador.setText(nombreCompleto);
+        administrador = (Administrador) getIntent().getSerializableExtra("actual");
     }
 
     public void actualizarPartidos(View view){
-
+        Intent actualizarPartidos = new Intent(MenuPrincipalAdministrador.this,ActualizarPartidosActivity.class);
+        actualizarPartidos.putExtra("actual",administrador);
+        startActivity(actualizarPartidos);
     }
     public void adminstrarPartidos(View view){
 
