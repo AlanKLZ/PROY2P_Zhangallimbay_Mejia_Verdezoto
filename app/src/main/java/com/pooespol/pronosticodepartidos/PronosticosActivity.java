@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -28,6 +27,7 @@ import com.pooespol.pronosticodepartidos.modelo.Fase;
 import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
+import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
 import java.util.ArrayList;
 
@@ -42,6 +42,7 @@ public class PronosticosActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ArrayList<Partido> partidos = new ArrayList<>();
     private Participante actual;
+    private ArrayList<Usuario> usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class PronosticosActivity extends AppCompatActivity {
         Log.e("PRONOSTICOS", "Partidos leidos: " + partidos.size());
         scrollViewPartidos = findViewById(R.id.scrollViewPartidos);
         actual = (Participante)getIntent().getSerializableExtra("actual");
+        usuarios = (ArrayList<Usuario>) getIntent().getSerializableExtra("usuarios");
 
         //Listener para el spinner
         spFase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,29 +152,60 @@ public class PronosticosActivity extends AppCompatActivity {
 
 
         // Configuracion de los items del menu
-        navigationView.setNavigationItemSelectedListener(item -> {
+    navigationView.setNavigationItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.navCerrarSesion) {
+    // Ir a la tabla de clasificación
+    if (item.getItemId() == R.id.navClasificacion) {
 
-                Intent intent = new Intent(
-                        PronosticosActivity.this,
-                        MainActivity.class
-                );
+        Intent intent = new Intent( PronosticosActivity.this,TablaClasificacionActivity.class
+        );
 
-                intent.setFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                );
+        intent.putExtra("actual", actual);
+        intent.putExtra("usuarios", usuarios);
 
-                startActivity(intent);
-                return true;
-            }
-            return false;
-        });
-
-        btVolver.setOnClickListener(v -> { finish();
-        });
+        startActivity(intent);
+        return true;
     }
+
+    // Ya estamos en PronosticosActivity
+    if (item.getItemId() == R.id.navPronostico) {
+        drawerLayout.closeDrawers();
+        return true;
+    }
+
+    // Ir a Mis Pronósticos
+    // Pendiente: agregar navegación cuando se cree la Activity de Mis Pronósticos
+    /*
+    if (item.getItemId() == R.id.navPerfil) {
+        // Aquí se abrirá la Activity de Mis Pronósticos
+        return true;
+    }
+*/
+
+    // Cerrar sesión
+    if (item.getItemId() == R.id.navCerrarSesion) {
+
+        Intent intent = new Intent(
+                PronosticosActivity.this,
+                MainActivity.class
+        );
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK
+        );
+
+        startActivity(intent);
+        return true;
+    }
+
+    return false;
+});
+
+btVolver.setOnClickListener(v -> {
+    finish();
+});
+
+    }
+          
     public void mostrarPartidos(ArrayList<Partido>partidos){
         for (Partido partido : partidos) {
 
