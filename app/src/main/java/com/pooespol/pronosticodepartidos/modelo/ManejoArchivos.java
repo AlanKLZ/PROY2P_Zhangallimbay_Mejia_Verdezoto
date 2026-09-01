@@ -397,6 +397,16 @@ public class ManejoArchivos {
         }
         return pronosticos;
     }
+
+    /**
+     * Lee todos los pronósticos registrados por un participante
+     * en las diferentes fases del torneo.
+     * Para cada fase se recuperan los pronósticos almacenados
+     * en el archivo correspondiente al participante
+     * @param idParticipante identificador del participante
+     * @param context contexto de la aplicación
+     * @return lista con todos los pronósticos registrados por el participante
+     */
     public static ArrayList<Pronostico> leerPronosticosParticipante(String idParticipante, Context context) {
         ArrayList<Pronostico> todos = new ArrayList<>();
         ArrayList<Fase> fases = new ArrayList<>();
@@ -417,6 +427,15 @@ public class ManejoArchivos {
 
         return todos;
     }
+
+    /**
+     * Lee todos los pronósticos registrados por los participantes
+     * de la aplicación
+     * Obtiene los usuarios registrados, identifica a los participantes
+     * y reúne los pronósticos almacenados para cada úno de ellos.
+     * @param context contexto de la aplicación
+     * @return lista con todos los pronóticos registrados
+     */
     public static ArrayList<Pronostico> leerTodosPronosticos(Context context) {
         ArrayList<Pronostico> todos = new ArrayList<>();
         ArrayList<Usuario> usuarios = leerUsuarios(context);
@@ -433,9 +452,13 @@ public class ManejoArchivos {
     }
 
     /**
-     *
-     * @param pronostico
-     * @param context
+     *Registra un pronóstico en el archivo correspondiente
+     * al participante y a la fase del torneo.
+     * Si ya existe un pronóstico con el mismo identificador, reemplaza el pronóstico anterior.
+     * Si no existe, agrega el nuevo pronóstico a la lista.
+     * @param pronostico pronóstico que se desea registrar
+     * @param fase fase del torneo a la que pertenece el pronóstico
+     * @param context contexto de la aplicación
      */
     public static void registrarPronostico(Pronostico pronostico, Fase fase, Context context){
         ArrayList<Pronostico>pronosticos = leerPronosticos(pronostico.getIdParticipante(), fase, context);
