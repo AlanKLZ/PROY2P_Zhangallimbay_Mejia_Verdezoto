@@ -25,23 +25,7 @@ public class ManejoArchivos {
     private static final String ARCHIVO_ADMINISTRADORES = "administradores.txt";
     private static final String ARCHIVO_PARTIDOS = "partidos.txt";
     private static final String ARCHIVO_RESULTADOS = "resultados.txt";
-    
-   
 
-     private final Context context;
-
-     /**
-     * Constructor de ManejoArchivos.
-     *
-     * @param context contexto de la aplicación
-     */
-    public ManejoArchivos(Context context) {
-        this.context = context.getApplicationContext();
-
-        inicializarArchivo(ARCHIVO_PARTICIPANTES);
-        inicializarArchivo(ARCHIVO_PARTIDOS);
-        inicializarArchivo(ARCHIVO_RESULTADOS);
-    }
 
     /**
      * Busca el cargo asociado a un administrador.
@@ -50,7 +34,7 @@ public class ManejoArchivos {
      * @return cargo encontrado o null
      */
  
-    private String buscarCargoAdministrador(String idUsuarioBuscado) {
+    private String buscarCargoAdministrador(String idUsuarioBuscado, Context context ) {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(ARCHIVO_ADMINISTRADORES)))) {
             String linea;
@@ -78,7 +62,7 @@ public class ManejoArchivos {
  * @param idUsuarioBuscado id del participante cuyo puntaje se desea obtener
  * @return puntaje acumulado del participante si se encuentra, caso contrario -1
  */
-    private int buscarPuntaje(String idUsuarioBuscado) {
+    private int buscarPuntaje(String idUsuarioBuscado, Context context ) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_PARTICIPANTES)))) {
             String linea;
             br.readLine();
@@ -104,7 +88,7 @@ public class ManejoArchivos {
  *
  * @param nombreArchivo nombre del archivo que se desea inicializar
  */
-   private void inicializarArchivo(String nombreArchivo) {
+   private void inicializarArchivo(String nombreArchivo, Context context) {
     File archivo = new File(context.getFilesDir(), nombreArchivo);
 
     if (!archivo.exists()) {
@@ -132,7 +116,7 @@ public class ManejoArchivos {
  * @return lista de usuarios cargados desde los archivos
  */
 
-    public ArrayList<Usuario> leerUsuarios() {
+    public ArrayList<Usuario> leerUsuarios(Context context) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try ( BufferedReader br =new BufferedReader(new InputStreamReader(context.getAssets().open(ARCHIVO_USUARIOS)) )
         ) {
@@ -178,7 +162,7 @@ public class ManejoArchivos {
      *
      * @return lista de partidos
      */
-    public ArrayList<Partido> leerPartidos() {
+    public ArrayList<Partido> leerPartidos(Context context) {
         ArrayList<Partido> partidos = new ArrayList<>();
         try (BufferedReader br =new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_PARTIDOS )) )
         ) {
@@ -213,7 +197,7 @@ public class ManejoArchivos {
      *
      * @param partido partido que se desea registrar
      */
-    public void registrarPartido(Partido partido) {
+    public void registrarPartido(Partido partido, Context context ) {
         try (BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_PARTIDOS,Context.MODE_APPEND )))) {
             bw.newLine();
             bw.write(partido.getIdPartido() + ";" + partido.getFaseTorneo() + ";" + partido.getFecha() + ";" + partido.getHora() + ";" + partido.getEstadio() + ";" + partido.getSeleccion1() + ";" + partido.getSeleccion2() + ";" + partido.getEstadoPartido()
@@ -229,7 +213,7 @@ public class ManejoArchivos {
      *
      * @param resultado resultado que se desea registrar
      */
-    public void registrarResultado(Resultado resultado) {
+    public void registrarResultado(Resultado resultado, Context context ) {
 
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(context.openFileOutput(ARCHIVO_RESULTADOS,Context.MODE_APPEND)))
         ) {
@@ -249,7 +233,7 @@ public class ManejoArchivos {
      * @param idPartido identificador del partido
      * @return resultado encontrado o null si no existe
      */
-    public Resultado obtenerResultado(String idPartido) {
+    public Resultado obtenerResultado(String idPartido, Context context) {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput(ARCHIVO_RESULTADOS)))) {
             String linea;

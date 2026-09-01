@@ -42,7 +42,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
     private Administrador actual;
     private LinearLayout llPartidos;
     private ArrayList<Partido> partidos = new ArrayList<>();
-    private ManejoArchivos ManejoArchivos = new ManejoArchivos(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         spFase = findViewById(R.id.spFase);
         llPartidos = findViewById(R.id.llPartidos);
         Button btnVolver = findViewById(R.id.btVolver);
-        partidos = ManejoArchivos.leerPartidos();
+        partidos = ManejoArchivos.
 
         //Configuracion del menu
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
@@ -250,7 +250,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                                 gol2
                         );
 
-                        ManejoArchivos.registrarResultado(resultado);
+                        ManejoArchivos.registrarResultado(resultado, this);
 
                         partido.setEstadoPartido(EstadoPartido.FINALIZADO);
                         configurarEstadoPartido(vistaPartido, partido);
@@ -268,7 +268,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                 llMarcadorEditable.setVisibility(View.GONE);
                 llMarcadorFinal.setVisibility(View.VISIBLE);
 
-                Resultado resultado = ManejoArchivos.obtenerResultado(partido.getIdPartido());
+                Resultado resultado = ManejoArchivos.obtenerResultado(partido.getIdPartido(), this);
 
                 if (resultado != null) {
                     tvGol1.setText(String.valueOf(resultado.getGolesSeleccion1()));
