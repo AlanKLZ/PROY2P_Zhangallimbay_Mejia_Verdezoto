@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 public class MenuPrincipalAdministrador extends AppCompatActivity {
     private TextView tVnombreAdministrador;
     private Button btnAdminstrarPartidos;

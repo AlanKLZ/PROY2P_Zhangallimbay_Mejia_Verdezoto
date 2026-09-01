@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * con los usuarios de la aplicación
  * Permite obtener la información de usuarios, participantes y administradores
  * correspondientes.
+ * @author andreaverdezotolung
  */
 
 public class ManejoArchivosUsuario {
@@ -145,6 +146,9 @@ public class ManejoArchivosUsuario {
 
         }
         return usuarios;
+    }
+    public static void guardarParticipantes(Context context, ArrayList<Participante> participantes){
+
     }
 
     }

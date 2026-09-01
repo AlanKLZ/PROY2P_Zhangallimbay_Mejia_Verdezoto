@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * Activity Principal encargada del inicio de sesión de la aplicación
  * Carga los usuarios registrados, valida credenciales
  * Dirige al usuario al menú correspondiente según su tipo
+ * @author andreaverdezotolung
  */
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Usuario> usuarios;
