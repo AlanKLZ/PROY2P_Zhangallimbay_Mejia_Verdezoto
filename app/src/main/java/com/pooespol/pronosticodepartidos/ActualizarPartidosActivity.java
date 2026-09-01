@@ -28,6 +28,7 @@ import com.pooespol.pronosticodepartidos.modelo.Administrador;
 import com.pooespol.pronosticodepartidos.modelo.DatosIncompletosException;
 import com.pooespol.pronosticodepartidos.modelo.EstadoPartido;
 import com.pooespol.pronosticodepartidos.modelo.Fase;
+import com.pooespol.pronosticodepartidos.modelo.ManejoArchivos;
 import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Partido;
 import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
@@ -41,6 +42,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
     private Administrador actual;
     private LinearLayout llPartidos;
     private ArrayList<Partido> partidos = new ArrayList<>();
+    private ManejoArchivos ManejoArchivos = new ManejoArchivos(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         spFase = findViewById(R.id.spFase);
         llPartidos = findViewById(R.id.llPartidos);
         Button btnVolver = findViewById(R.id.btVolver);
-        //partidos = ManejoArchivos.cargarPartidos();
+        partidos = ManejoArchivos.leerPartidos();
 
         //Configuracion del menu
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
@@ -118,16 +120,16 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
 
                     case 1:
                         faseSeleccionada =
-                            Fase.DIECISEISAVOS;
+                            Fase.DIECISEISAVOS_DE_FINAL;
                         break;
                     case 2:
                         faseSeleccionada =
-                            Fase.OCTAVOS;
+                            Fase.OCTAVOS_DE_FINAL;
                         break;
 
                     case 3:
                         faseSeleccionada =
-                            Fase.CUARTOS;
+                            Fase.CUARTOS_DE_FINAL;
                         break;
 
                     case 4:
@@ -243,13 +245,12 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                         int gol2 = Integer.parseInt(goles2);
 
                         Resultado resultado = new Resultado(
-                                idResultado,
                                 partido.getIdPartido(),
                                 gol1,
                                 gol2
                         );
 
-                        //registrarResultado(resultado); //Con ManejoArchivos(pendiente)
+                        ManejoArchivos.registrarResultado(resultado);
 
                         partido.setEstadoPartido(EstadoPartido.FINALIZADO);
                         configurarEstadoPartido(vistaPartido, partido);
@@ -267,7 +268,7 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                 llMarcadorEditable.setVisibility(View.GONE);
                 llMarcadorFinal.setVisibility(View.VISIBLE);
 
-                //Resultado resultado = obtenerResultado(partido.getIdPartido());
+                Resultado resultado = ManejoArchivos.obtenerResultado(partido.getIdPartido());
 
                 if (resultado != null) {
                     tvGol1.setText(String.valueOf(resultado.getGolesSeleccion1()));
