@@ -85,7 +85,7 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         );
 
         intent.putExtra("actual", actual);
-        intent.putExtra("usuarios", usuarios);
+        //intent.putExtra("usuarios", usuarios);
 
         startActivity(intent);
         return true;

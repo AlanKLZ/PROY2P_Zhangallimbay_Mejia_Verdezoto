@@ -39,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Consulta tus pronósticos registrados" />
+
         </androidx.cardview.widget.CardView>
 
         <ScrollView
