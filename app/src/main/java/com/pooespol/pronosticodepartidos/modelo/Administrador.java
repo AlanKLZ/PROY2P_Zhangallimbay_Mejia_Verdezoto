@@ -67,7 +67,16 @@ public class Administrador extends Usuario{
         }
         return 0;
     }
-    //pendiente el javadoc
+
+    /**
+     * El Administrador revisa los resultados y actualiza el atributo PuntajeAcumulado
+     * se recorre todos los pronosticos con sus resultados para cuando el partido se
+     * encuentre finalizado, se efectua el cambio a los participantes
+     * @param participantes lista de participantes
+     * @param pronosticos lista de pronosticos
+     * @param partidos lista de partidos
+     * @param resultados lista de resultados
+     */
     public void actualizarPuntajes(ArrayList<Participante> participantes, ArrayList<Pronostico>pronosticos, ArrayList<Partido> partidos, ArrayList<Resultado>resultados){
         for (Participante participante: participantes){
             participante.setPuntajeAcumulado(0);

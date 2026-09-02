@@ -81,12 +81,12 @@ public class Participante extends Usuario implements Comparable<Participante>{
                 partido.getIdPartido(),
                 golesSeleccion1,
                 golesSeleccion2,
-                0
+                -1
         );
     }
 
     /**
-     *
+     *Implementa la interfaz comparable para ordenarlos por puntaje
      * @return Retorna un numero, para luego ordenarlos.
      */
     @Override

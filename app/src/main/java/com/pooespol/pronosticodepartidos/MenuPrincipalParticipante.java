@@ -16,6 +16,12 @@ import com.pooespol.pronosticodepartidos.modelo.Participante;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
 import java.util.ArrayList;
+/**
+ * Activity que representa el menú principal del participante.
+ * Permite acceder a la tabla de posiciones, registrar pronósticos,
+ * consultar los pronósticos realizados y cerrar la sesión.
+ * @author andreaverdezotolung
+ */
 
 public class MenuPrincipalParticipante extends AppCompatActivity {
     private Button btnTablaPosiciones;
@@ -24,6 +30,13 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
     private Button btnSalirParticipante;
     private Participante actual;
     private ArrayList<Usuario> usuarios = new ArrayList<>();
+
+    /**
+     * Inicializa la Activity y obtiene la información del participante
+     * que inició sesión y la lista de usuarios recibida desde la Activity anterior.
+     *
+     * @param savedInstanceState estado previamente guardado de la Activity
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,11 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
             return insets;
         });
     }
+    /**
+     * Abre la pantalla de tabla de posiciones y envía la información
+     * del participante actual.
+     * @param view vista que ejecuta la acción
+     */
     public void verTablaPosicion(View view){
         Intent tablaPosicion = new Intent(MenuPrincipalParticipante.this,TablaClasificacionActivity.class);
         //Pendiente el manejo de pasar el arraylist
@@ -54,6 +72,10 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         tablaPosicion.putExtra("actual",actual);
         startActivity(tablaPosicion);
     }
+    /**
+     * Abre la pantalla en la que el participante puede registrar pronósticos.
+     * @param view vista que ejecuta la acción
+     */
     public void verPronosticos(View view){
         Intent pronosticos = new Intent(MenuPrincipalParticipante.this,PronosticosActivity.class);
         pronosticos.putExtra("actual",actual);
@@ -61,9 +83,21 @@ public class MenuPrincipalParticipante extends AppCompatActivity {
         startActivity(pronosticos);
         
     }
+    /**
+     * Abre la pantalla que muestra los pronósticos registrados
+     * por el participante actual.
+     * @param view vista que ejecuta la acción
+     */
     public void verMisPronosticos(View view){
-
+        Intent misPronosticos = new Intent(MenuPrincipalParticipante.this, MisPronosticosActivity.class);
+        misPronosticos.putExtra("actual", actual);
+        startActivity(misPronosticos);
     }
+    /**
+     * Cierra el menú principal del participante y regresa
+     * a la pantalla anterior.
+     * @param view vista que ejecuta la acción
+     */
     public void salir(View view){
         finish();
     }
