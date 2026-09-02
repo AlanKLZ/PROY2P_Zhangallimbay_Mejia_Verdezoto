@@ -1,6 +1,7 @@
 package com.pooespol.pronosticodepartidos.modelo;
 
 /**
+ * Clase que representa a un participante
  * @author Alan
  */
 public class Participante extends Usuario implements Comparable<Participante>{
