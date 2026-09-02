@@ -81,7 +81,7 @@ public class Participante extends Usuario implements Comparable<Participante>{
                 partido.getIdPartido(),
                 golesSeleccion1,
                 golesSeleccion2,
-                0
+                -1
         );
     }
 
