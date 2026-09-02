@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -32,6 +33,7 @@ import com.pooespol.pronosticodepartidos.modelo.Partido;
 import com.pooespol.pronosticodepartidos.modelo.Pronostico;
 import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -268,6 +270,45 @@ public class PronosticosActivity extends AppCompatActivity {
             tvSeleccion1.setText(partido.getSeleccion1());
             tvSeleccion2.setText(partido.getSeleccion2());
 
+            ImageView imageSeleccion1 = vistaPartido.findViewById(R.id.imageSeleccion1);
+            ImageView imageSeleccion2 = vistaPartido.findViewById(R.id.imageSeleccion2);
+            // Imagen de la selección 1
+            String nombreSeleccion1 = Normalizer.normalize(
+                            partido.getSeleccion1().toLowerCase(),
+                            Normalizer.Form.NFD
+                    ).replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                    .replace("ñ", "n")
+                    .replace(" ", "");
+            int drawableSeleccion1 = getResources().getIdentifier(
+                    nombreSeleccion1,
+                    "drawable",
+                    getPackageName()
+            );
+
+            if (drawableSeleccion1 != 0) {
+                imageSeleccion1.setImageResource(drawableSeleccion1);
+            } else {
+                imageSeleccion1.setImageResource(R.drawable.copa);
+            }
+
+            // Imagen de la selección 2
+            String nombreSeleccion2 = Normalizer.normalize(
+                            partido.getSeleccion2().toLowerCase(),
+                            Normalizer.Form.NFD
+                    ).replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                    .replace("ñ", "n")
+                    .replace(" ", "");
+            int drawableSeleccion2 = getResources().getIdentifier(
+                    nombreSeleccion2,
+                    "drawable",
+                    getPackageName()
+            );
+
+            if (drawableSeleccion2 != 0) {
+                imageSeleccion2.setImageResource(drawableSeleccion2);
+            } else {
+                imageSeleccion2.setImageResource(R.drawable.copa);
+            }
 
             // Agregar la vista al ScrollView
             llPartidos.addView(vistaPartido);

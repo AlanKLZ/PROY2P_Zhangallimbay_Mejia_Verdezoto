@@ -3,6 +3,7 @@ package com.pooespol.pronosticodepartidos.modelo;
 import java.util.ArrayList;
 
 /**
+ * Clase que representa el administrador
  * @author Alan
  * @author andreaverdezotolung
  */

@@ -35,6 +35,7 @@ import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException
 import com.pooespol.pronosticodepartidos.modelo.Resultado;
 import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
@@ -340,6 +341,38 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
 
             ImageView imgSeleccion2 = vistaPartido.findViewById(R.id.imgSeleccion2);
 
+            String nombreSeleccion1 = Normalizer.normalize(
+                            partido.getSeleccion1().toLowerCase(),
+                            Normalizer.Form.NFD
+                    ).replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                    .replace("ñ", "n")
+                    .replace(" ", "");
+
+            int drawableSeleccion1 = getResources().getIdentifier(
+                    nombreSeleccion1, "drawable", getPackageName());
+
+            if (drawableSeleccion1 != 0) {
+                imgSeleccion1.setImageResource(drawableSeleccion1);
+            } else {
+                imgSeleccion1.setImageResource(R.drawable.copa);
+            }
+
+
+            String nombreSeleccion2 = Normalizer.normalize(
+                            partido.getSeleccion2().toLowerCase(),
+                            Normalizer.Form.NFD
+                    ).replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                    .replace("ñ", "n")
+                    .replace(" ", "");
+
+            int drawableSeleccion2 = getResources().getIdentifier(
+                    nombreSeleccion2, "drawable", getPackageName());
+
+            if (drawableSeleccion2 != 0) {
+                imgSeleccion2.setImageResource(drawableSeleccion2);
+            } else {
+                imgSeleccion2.setImageResource(R.drawable.copa);
+            }
 
             // Cargar información común
             tvFecha.setText(partido.getFecha());
