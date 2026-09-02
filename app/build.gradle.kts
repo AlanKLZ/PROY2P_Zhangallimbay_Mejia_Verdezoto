@@ -44,3 +44,31 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
 }
+tasks.register<Javadoc>("generateJavadoc") {
+    description = "Genera Javadoc con las referencias del SDK y dependencias."
+
+    // Obtiene los archivos fuente de Java
+    val mainSourceSet = android.sourceSets.getByName("main").java.directories
+    source(mainSourceSet)
+
+    // Agrega el classpath del SDK de Android y las librerías del proyecto
+    val androidComponents = project.extensions.getByType<com.android.build.api.variant.ApplicationAndroidComponentsExtension>()
+    (tasks.findByName("compileDebugJavaWithJavac") as? JavaCompile)?.let { compileTask ->
+        classpath = files(androidComponents.sdkComponents.bootClasspath, compileTask.classpath)
+    }
+
+    // Excluye archivos generados automáticamente que suelen romper la compilación
+    exclude("**/R.java", "**/BuildConfig.java", "**/Manifest.java")
+
+    // Opciones de configuración del compilador Javadoc
+    (options as StandardJavadocDocletOptions).apply {
+        encoding = "UTF-8"
+        charSet = "UTF-8"
+        isDocFilesSubDirs = true
+        // Evita que el proceso falle si encuentra errores menores de sintaxis Javadoc
+        addStringOption("Xdoclint:none", "-quiet")
+    }
+
+    // Permite que la tarea termine aunque encuentre algún símbolo no resuelto
+    isFailOnError = false
+}
