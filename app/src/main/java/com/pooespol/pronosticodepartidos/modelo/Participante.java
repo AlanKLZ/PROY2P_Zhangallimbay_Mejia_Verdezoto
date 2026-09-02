@@ -86,7 +86,7 @@ public class Participante extends Usuario implements Comparable<Participante>{
     }
 
     /**
-     *
+     *Implementa la interfaz comparable para ordenarlos por puntaje
      * @return Retorna un numero, para luego ordenarlos.
      */
     @Override

@@ -34,7 +34,10 @@ import com.pooespol.pronosticodepartidos.modelo.PronosticoFueraDeTiempoException
 
 import java.util.ArrayList;
 
-
+/**
+ * Clase Activity donde el participante registra sus pronosticos
+ * @author Alan
+ */
 public class PronosticosActivity extends AppCompatActivity {
     private Spinner spFase;
     private LinearLayout llPartidos;
@@ -65,6 +68,9 @@ public class PronosticosActivity extends AppCompatActivity {
         actual = (Participante)getIntent().getSerializableExtra("actual");
 
         //Listener para el spinner
+        /**
+         * Dependiendo del item del spinner se muestran los views
+         */
         spFase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(
@@ -168,12 +174,36 @@ public class PronosticosActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+            if(item.getItemId()==R.id.navClasificacion){
+                Intent intent = new Intent(PronosticosActivity.this,TablaClasificacionActivity.class
+                );
+
+                intent.putExtra("actual", actual);
+
+                startActivity(intent);
+                return true;
+            }
+            if(item.getItemId()==R.id.navPerfil){
+                Intent intent = new Intent(PronosticosActivity.this,MisPronosticosActivity.class
+                );
+
+                intent.putExtra("actual", actual);
+
+                startActivity(intent);
+                return true;
+            }
             return false;
         });
 
         btVolver.setOnClickListener(v -> { finish();
         });
     }
+
+    /**
+     * Se crean las views a partir de una lista de partidos del cual se muestran sus atributos
+     * Edita los textos dependiendo del estado del partido
+     * @param partidos Lista de partidos del que se crearán views
+     */
     public void mostrarPartidos(ArrayList<Partido>partidos){
         for (Partido partido : partidos) {
 

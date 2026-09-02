@@ -37,6 +37,10 @@ import com.pooespol.pronosticodepartidos.modelo.Usuario;
 
 import java.util.ArrayList;
 
+/**
+ * Clase del actividad para actualizar los partidos
+ * @author Alan
+ */
 public class ActualizarPartidosActivity extends AppCompatActivity {
     private Spinner spFase;
     private Administrador actual;
@@ -100,6 +104,9 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         });
 
         //Listener para el spinner
+        /**
+         * Dependiendo del item seleccionado se muestran los partidos
+         */
         spFase.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(
@@ -168,6 +175,14 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
             finish();
         });
     }
+
+    /**
+     * Se crean los views con los atributos de los partidos, además, dependiendo del item del spinner se
+     * invoca el metodo de mostrarPartidos(...). Además que edita los views creados dependiendo del estado
+     * que se encuentre el partido
+     * @param vistaPartido View que se está creando
+     * @param partido Objeto de un partido del que se mostrarán sus atributos
+     */
     private void configurarEstadoPartido(View vistaPartido, Partido partido) {
 
         TextView tvEstado = vistaPartido.findViewById(R.id.tvEstado);
@@ -179,7 +194,9 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
         TextView tvGol1 = vistaPartido.findViewById(R.id.tvGol1);
         TextView tvGol2 = vistaPartido.findViewById(R.id.tvGol2);
         Button btnAccion = vistaPartido.findViewById(R.id.btnAccion);
-
+        /**
+         * Dependiendo del estado, se editan las views que se muestran en el scroll.
+         */
         switch (partido.getEstadoPartido()) {
 
             case ABIERTO:
@@ -291,6 +308,11 @@ public class ActualizarPartidosActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    /**
+     * Este método cargas las views de los partidos seleccionados
+     * @param partidosFiltrados Lista de partidos del cual se van a mostrar en el scroll
+     */
     public void mostrarPartidos(ArrayList<Partido> partidosFiltrados) {
 
         // Eliminar los partidos mostrados anteriormente

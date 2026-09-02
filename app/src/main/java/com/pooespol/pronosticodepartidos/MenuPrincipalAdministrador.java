@@ -21,7 +21,7 @@ import com.pooespol.pronosticodepartidos.modelo.Administrador;
  * También muestra el nombre del administrador que inició sesión.
  *
  * @author andreaverdezotolung
- * @author allan
+ * @author Alan
  */
 
 public class MenuPrincipalAdministrador extends AppCompatActivity {

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 /**
  * Activity para la tabla de posiciones
+ * @author Alan
  */
 public class TablaClasificacionActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -92,12 +93,16 @@ public class TablaClasificacionActivity extends AppCompatActivity {
 
         // Ir a Mis Pronósticos
         // Pendiente: agregar navegación cuando se cree la Activity de Mis Pronósticos
-        /*
-        if (item.getItemId() == R.id.navPerfil) {
-        // Aquí se abrirá la Activity de Mis Pronósticos :)
-        return true;
-}
-*/    
+
+        if (item.getItemId() == R.id.navPerfil) {Intent intent = new Intent(TablaClasificacionActivity.this,MisPronosticosActivity.class
+        );
+
+            intent.putExtra("actual", actual);
+
+            startActivity(intent);
+            return true;
+        }
+
       // Cerrar sesión
         if (item.getItemId() == R.id.navCerrarSesion) {
             Intent intent = new Intent(TablaClasificacionActivity.this, MainActivity.class
@@ -131,7 +136,9 @@ public class TablaClasificacionActivity extends AppCompatActivity {
         cargarTabla(participantes);
     }
 
-    //falta el javadoc
+    /**
+     * Renueva la lista actual de participantes para actualizar la tabla de posiciones
+     */
     private void actualizarParticipantes(){
         participantes.clear();
         ArrayList<Usuario> usuarios = ManejoArchivos.leerUsuarios(this);
